@@ -9,9 +9,58 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button"
+        android:text="Entrar"
+        android:id="@+id/btnEntrar"
+        android:minWidth="200dp"
+        android:layout_marginTop="45dp"
+        android:layout_below="@+id/textContraseña"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Usuario"
+        android:id="@+id/textUsuario"
+        android:textSize="50px"
+        android:layout_above="@+id/editText"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/editUsuario"
+        android:layout_above="@+id/textUsuario"
+        android:layout_alignLeft="@+id/editText"
+        android:layout_alignStart="@+id/editText" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Contraseña"
+        android:id="@+id/textContraseña"
+        android:textSize="50px"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/editText"
+        android:layout_above="@+id/textContraseña"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Registrarse"
+        android:id="@+id/btnRegistrarse"
+        android:minWidth="200dp"
+        android:layout_below="@+id/btnEntrar"
+        android:layout_alignLeft="@+id/btnEntrar"
+        android:layout_alignStart="@+id/btnEntrar" />
 
 </RelativeLayout>
