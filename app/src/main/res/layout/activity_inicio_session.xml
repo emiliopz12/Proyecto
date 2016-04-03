@@ -22,7 +22,7 @@
         android:text="Usuario"
         android:id="@+id/textUsuario"
         android:textSize="50px"
-        android:layout_above="@+id/editText"
+        android:layout_above="@+id/editContraseñaLogueo"
         android:layout_centerHorizontal="true" />
 
     <EditText
@@ -32,8 +32,8 @@
         android:ems="10"
         android:id="@+id/editUsuario"
         android:layout_above="@+id/textUsuario"
-        android:layout_alignLeft="@+id/editText"
-        android:layout_alignStart="@+id/editText" />
+        android:layout_alignLeft="@+id/editContraseñaLogueo"
+        android:layout_alignStart="@+id/editContraseñaLogueo" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/editContraseñaLogueo"
         android:layout_above="@+id/textContraseña"
         android:layout_centerHorizontal="true" />
 
