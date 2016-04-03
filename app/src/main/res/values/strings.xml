@@ -11,4 +11,6 @@
     <string name="title_section2">Mi cuenta</string>
     <string name="title_section3">Realizar \nReporte</string>
     <string name="title_section4">Mapa</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>
