@@ -14,6 +14,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
 public class Principal extends AppCompatActivity implements ActionBar.TabListener {
@@ -70,8 +77,32 @@ public class Principal extends AppCompatActivity implements ActionBar.TabListene
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+    try {
+
+        String urlParameters = "param1=a&param2=b&param3=c";
+        byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
+        int postDataLength = postData.length;
+        String request = "http://example.com/index.php";
+        URL url = null;
+        url = new URL(request);
+        HttpURLConnection conn = null;
+        conn = (HttpURLConnection) url.openConnection();
+        conn.setDoOutput(true);
+        conn.setInstanceFollowRedirects(false);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        conn.setRequestProperty("charset", "utf-8");
+        conn.setRequestProperty("Content-Length", Integer.toString(postDataLength));
+        conn.setUseCaches(false);
+        DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
+        wr.write(postData);
 
     }
+    catch (IOException e){
+
+        }
+
+    }//----------------------------------------------
 
 
     @Override
