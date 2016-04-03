@@ -1,9 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="wrap_content"
-    android:layout_height="match_parent" android:paddingLeft="0dp"
-    android:paddingRight="2dp"
-    android:paddingTop="0dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+    android:theme="@style/AppTheme.NoActionBar"
     tools:context="com.example.horse.proyecto.Principal$PlaceholderFragment">
 
     <TabHost
@@ -25,7 +28,10 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:baselineAligned="false"
-                android:tabStripEnabled="false"></TabWidget>
+                android:tabStripEnabled="true"
+                style="@style/Base.Widget.AppCompat.Light.ActionBar.TabBar">
+
+            </TabWidget>
 
             <FrameLayout
                 android:id="@android:id/tabcontent"
@@ -37,21 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:weightSum="1">
-
-                    <TextView
-                        android:layout_width="157dp"
-                        android:layout_height="wrap_content"
-                        android:text="New Text"
-                        android:id="@+id/textView"
-                        android:layout_weight="0.34" />
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="New Button"
-                        android:id="@+id/button" />
-                </LinearLayout>
+                    android:weightSum="1"></LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/micuenta"
@@ -71,8 +63,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="vertical"></LinearLayout>
-
             </FrameLayout>
         </LinearLayout>
     </TabHost>
+
 </RelativeLayout>
