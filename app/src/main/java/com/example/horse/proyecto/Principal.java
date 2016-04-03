@@ -1,5 +1,7 @@
 package com.example.horse.proyecto;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -38,6 +42,7 @@ public class Principal extends AppCompatActivity implements ActionBar.TabListene
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,32 +82,47 @@ public class Principal extends AppCompatActivity implements ActionBar.TabListene
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
-    try {
+         Button MiBoton = (Button) findViewById(R.id.button);
+        MiBoton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View arg0) {
 
-        String urlParameters = "param1=a&param2=b&param3=c";
-        byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
-        int postDataLength = postData.length;
-        String request = "http://example.com/index.php";
-        URL url = null;
-        url = new URL(request);
-        HttpURLConnection conn = null;
-        conn = (HttpURLConnection) url.openConnection();
-        conn.setDoOutput(true);
-        conn.setInstanceFollowRedirects(false);
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-        conn.setRequestProperty("charset", "utf-8");
-        conn.setRequestProperty("Content-Length", Integer.toString(postDataLength));
-        conn.setUseCaches(false);
-        DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
-        wr.write(postData);
+                TextView texto = (TextView)  findViewById(R.id.textView);
+                texto.setText("hola amigos");
 
-    }
-    catch (IOException e){
+            }
 
+        });
+
+    }//-------------------
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    public String test(){
+        try {
+
+            String urlParameters = "{usuario: 'danel@correo.com', contrasena: '123'}";
+            byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
+            int postDataLength = postData.length;
+            String request = "http://cuidandomiciudad.ctempurl.com/WebServiceApiRouter.svc/api/login";
+            URL url = null;
+            url = new URL(request);
+            HttpURLConnection conn = null;
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setDoOutput(true);
+            conn.setInstanceFollowRedirects(false);
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("charset", "utf-8");
+            conn.setRequestProperty("Content-Length", Integer.toString(postDataLength));
+            conn.setUseCaches(false);
+            DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
+            wr.write(postData);
+            return postData.toString();
         }
-
-    }//----------------------------------------------
+        catch (IOException e){
+            return "error";
+        }
+    }
 
 
     @Override
