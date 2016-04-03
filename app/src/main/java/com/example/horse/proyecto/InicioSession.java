@@ -1,6 +1,7 @@
 package com.example.horse.proyecto;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +23,12 @@ public class InicioSession extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_session);
-
+        findViewById(R.id.btnRegistrarse).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(InicioSession.this, Registro.class));
+            }
+        });
 
 
     }//--------------------------------
