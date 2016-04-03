@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.Locale;
 
@@ -117,9 +116,37 @@ public class Principal extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_principal, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.textView);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+
+            View rootView = null;
+
+            if(getArguments().getInt(ARG_SECTION_NUMBER) == 1){
+                rootView = inflater.inflate(R.layout.inicio, container, false);
+
+                //HACER LO QUE TENGA QUE VER CON INICIO
+            }
+
+            if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){
+                rootView = inflater.inflate(R.layout.cuenta, container, false);
+
+                //HACER  LO QUE TENGA QUE VER CON CUENTA
+            }
+
+            if(getArguments().getInt(ARG_SECTION_NUMBER) == 3){
+                rootView = inflater.inflate(R.layout.reporte, container, false);
+
+                //HACER  LO QUE TENGA QUE VER CON REPORTE
+            }
+
+            if(getArguments().getInt(ARG_SECTION_NUMBER) == 4){
+                rootView = inflater.inflate(R.layout.cuenta, container, false);
+
+                //HACER LO QUE TENGA QUE VER CON MAPA
+            }
+
+
+            //TextView textView = (TextView) rootView.findViewById(R.id.textView);
+            //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+
             return rootView;
         }
     }

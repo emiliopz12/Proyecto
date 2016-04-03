@@ -13,4 +13,5 @@
     <string name="title_section4">Mapa</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="section_format">Seccion: %1$d</string>
+    <string name="title_activity_mapa">Mapa</string>
 </resources>
