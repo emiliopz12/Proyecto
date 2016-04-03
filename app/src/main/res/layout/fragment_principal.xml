@@ -9,7 +9,7 @@
     android:theme="@style/AppTheme.NoActionBar"
     tools:context="com.example.horse.proyecto.Principal$PlaceholderFragment">
 
-    <TabHost
+    <!--<TabHost
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:id="@+id/tabHost2"
@@ -28,7 +28,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:baselineAligned="false"
-                android:tabStripEnabled="true"
                 style="@style/Base.Widget.AppCompat.Light.ActionBar.TabBar">
 
             </TabWidget>
@@ -40,31 +39,61 @@
 
                 <LinearLayout
                     android:id="@+id/inicio"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:weightSum="1"></LinearLayout>
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Inicio"
+                        android:id="@+id/textView2"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="@dimen/abc_text_size_large_material"
+                        android:textIsSelectable="true" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/micuenta"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
                     android:orientation="vertical"
                     android:gravity="left"
-                    android:layout_margin="0dp"></LinearLayout>
+                    android:layout_margin="0dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Cuenta"
+                        android:id="@+id/a2"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="@dimen/abc_text_size_large_material"
+                        android:textIsSelectable="true" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/realizarreporte"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"></LinearLayout>
                 <LinearLayout
                     android:id="@+id/mapa"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"></LinearLayout>
             </FrameLayout>
         </LinearLayout>
-    </TabHost>
+    </TabHost>-->
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
