@@ -1,9 +1,20 @@
 package com.example.horse.proyecto;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 public class InicioSession extends AppCompatActivity {
 
@@ -11,7 +22,12 @@ public class InicioSession extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_session);
-    }
+
+
+
+    }//--------------------------------
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

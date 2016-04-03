@@ -82,19 +82,22 @@ public class Principal extends AppCompatActivity implements ActionBar.TabListene
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
-         Button MiBoton = (Button) findViewById(R.id.button);
-        MiBoton.setOnClickListener(new View.OnClickListener(){
+
+       /* Button MiBoton = (Button) findViewById(R.id.btnEntrar);
+        MiBoton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
 
-                TextView texto = (TextView)  findViewById(R.id.textView);
+                TextView texto = (TextView) findViewById(R.id.textView2);
                 texto.setText("hola amigos");
 
             }
 
-        });
+        });*/
 
     }//-------------------
+
+
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public String test(){
@@ -123,6 +126,7 @@ public class Principal extends AppCompatActivity implements ActionBar.TabListene
             return "error";
         }
     }
+
 
 
     @Override
