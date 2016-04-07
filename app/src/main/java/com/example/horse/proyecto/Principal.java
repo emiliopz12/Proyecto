@@ -15,6 +15,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.util.Locale;
 
 public class Principal extends AppCompatActivity {
@@ -137,17 +146,81 @@ public class Principal extends AppCompatActivity {
                 //HACER  LO QUE TENGA QUE VER CON REPORTE
             }
 
-            if(getArguments().getInt(ARG_SECTION_NUMBER) == 4){
-                rootView = inflater.inflate(R.layout.cuenta, container, false);
-
-                //HACER LO QUE TENGA QUE VER CON MAPA
-            }
-
-
             //TextView textView = (TextView) rootView.findViewById(R.id.textView);
             //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
 
             return rootView;
+        }
+    }
+
+    public class MapFragment extends Fragment {
+
+        MapView mMapView;
+        private GoogleMap googleMap;
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            // inflate and return the layout
+            View v = inflater.inflate(R.layout.activity_mapa, container,
+                    false);
+            mMapView = (MapView) v.findViewById(R.id.mapView);
+            mMapView.onCreate(savedInstanceState);
+
+            mMapView.onResume();// needed to get the map to display immediately
+
+            try {
+                MapsInitializer.initialize(getActivity().getApplicationContext());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            googleMap = mMapView.getMap();
+            // latitude and longitude
+            double latitude = 9.971670;
+            double longitude = -84.128554;
+
+            // create marker
+            MarkerOptions marker = new MarkerOptions().position(
+                    new LatLng(latitude, longitude)).title("Hello Maps");
+
+            // Changing marker icon
+            marker.icon(BitmapDescriptorFactory
+                    .defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+
+            // adding marker
+            googleMap.addMarker(marker);
+            CameraPosition cameraPosition = new CameraPosition.Builder()
+                    .target(new LatLng(9.971670, -84.128554)).zoom(12).build();
+            googleMap.animateCamera(CameraUpdateFactory
+                    .newCameraPosition(cameraPosition));
+
+            // Perform any camera updates here
+            return v;
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            mMapView.onResume();
+        }
+
+        @Override
+        public void onPause() {
+            super.onPause();
+            mMapView.onPause();
+        }
+
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+            mMapView.onDestroy();
+        }
+
+        @Override
+        public void onLowMemory() {
+            super.onLowMemory();
+            mMapView.onLowMemory();
         }
     }
 
@@ -165,7 +238,13 @@ public class Principal extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
+            //return PlaceholderFragment.newInstance(position + 1);
+
+            if(position == 3){
+                return new MapFragment();
+            }
             return PlaceholderFragment.newInstance(position + 1);
+
         }
 
         @Override
