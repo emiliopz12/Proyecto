@@ -1,5 +1,6 @@
 package com.example.horse.proyecto;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,11 +10,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -27,21 +31,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.Locale;
 
 public class Principal extends AppCompatActivity {
-
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
     private ViewPager mViewPager;
+    private EditText inputPelicula;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,10 +63,37 @@ public class Principal extends AppCompatActivity {
             }
         });
 
+    }//-------------------------------------------------------------------FIN ONCREATE
 
+    //------------------- SERVICIO REST ----------------------------
 
+    public void buscarPelicula(View view) {
+        String titulo = inputPelicula.getText().toString();
+        if (!TextUtils.isEmpty(titulo)) {
+            String url = String.format(
+                    "http://mymovieapi.com/?title=%1$s&type=json&limit=10", titulo);
+            new LoadFilmTask().execute(url);
+        }
     }
 
+    public static final String TAG = "com.amatellanes.pelicularest";
+
+    private class LoadFilmTask extends AsyncTask<String, Long, String> {
+        protected String doInBackground(String... urls) {
+            try {
+                return HttpRequest.get(urls[0]).accept("application/json")
+                        .body();
+            } catch (HttpRequest.HttpRequestException exception) {
+                return null;
+            }
+        }
+
+        protected void onPostExecute(String response) {
+            Log.i(TAG, response);
+        }
+    }
+
+    //-----------------------------------------------------------------------
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
