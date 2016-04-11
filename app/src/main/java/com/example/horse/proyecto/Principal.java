@@ -1,6 +1,5 @@
 package com.example.horse.proyecto;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,10 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -29,8 +24,6 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 public class Principal extends AppCompatActivity {
@@ -59,7 +52,7 @@ public class Principal extends AppCompatActivity {
         //setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), this);
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -113,8 +106,6 @@ public class Principal extends AppCompatActivity {
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
-        private List<Reporte> myCars = new ArrayList<Reporte>();
-        static Activity p;
 
         public PlaceholderFragment() {
         }
@@ -123,9 +114,8 @@ public class Principal extends AppCompatActivity {
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PlaceholderFragment newInstance(int sectionNumber, Activity principal) {
+        public static PlaceholderFragment newInstance(int sectionNumber) {
             PlaceholderFragment fragment = new PlaceholderFragment();
-            p = principal;
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
@@ -139,36 +129,9 @@ public class Principal extends AppCompatActivity {
             View rootView = null;
 
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 1){
-
                 rootView = inflater.inflate(R.layout.inicio, container, false);
 
-                final List<Reporte> reportes = new ArrayList<Reporte>();
-
-                ListView list = (ListView) rootView.findViewById(R.id.listaReportes);
-
-
-                reportes.add(new Reporte("Seguridad", "Asalto en la calle", "San Jose", "12/12/12"));
-                reportes.add(new Reporte("Agua", "Tuberia en mal estado", "Heredia", "12/12/12"));
-                reportes.add(new Reporte("Luz", "Poste de luz caido", "Alajuela", "12/12/12"));
-
-
-                ArrayAdapter<Reporte> adapter = new AdaptadorReporte(p, reportes);
-
-                list.setAdapter(adapter);
-
-
-                list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View viewClicked,
-                                            int position, long id) {
-                       // Reporte clickedCar = myCars.get(position);
-                        String message = "Elegiste item No. " + (1 + position)
-                                ;
-                        Toast.makeText(getActivity(), message,
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-
+                //HACER LO QUE TENGA QUE VER CON INICIO
             }
 
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){
@@ -190,7 +153,7 @@ public class Principal extends AppCompatActivity {
         }
     }
 
-    public static class MapFragment extends Fragment {
+    public class MapFragment extends Fragment {
 
         MapView mMapView;
         private GoogleMap googleMap;
@@ -267,12 +230,8 @@ public class Principal extends AppCompatActivity {
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        Activity p;
-
-        public SectionsPagerAdapter(FragmentManager fm, Activity principal) {
+        public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
-
-            p = principal;
         }
 
         @Override
@@ -284,7 +243,7 @@ public class Principal extends AppCompatActivity {
             if(position == 3){
                 return new MapFragment();
             }
-            return PlaceholderFragment.newInstance(position + 1, p);
+            return PlaceholderFragment.newInstance(position + 1);
 
         }
 
@@ -310,6 +269,4 @@ public class Principal extends AppCompatActivity {
             return null;
         }
     }
-
-
 }
