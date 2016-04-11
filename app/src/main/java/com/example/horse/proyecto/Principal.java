@@ -1,7 +1,8 @@
 package com.example.horse.proyecto;
 
-import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -10,13 +11,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -29,27 +32,28 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class Principal extends AppCompatActivity {
-
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
     private ViewPager mViewPager;
-
+    private EditText inputPelicula;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +64,7 @@ public class Principal extends AppCompatActivity {
         //setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), this);
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -73,15 +77,69 @@ public class Principal extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                REST();
             }
         });
 
 
+    }//-------------------------------------------------------------------FIN ONCREATE
 
-    }
+    //------------------- SERVICIO REST ----------------------------
 
+    public void REST(){
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        String URL = "http://api.geonames.org/citiesJSON?north=44.1&south=-9.9&east=-22.4&west=55.2&lang=de&username=demo";
+        try{
+            String result = "";
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpResponse response = httpclient.execute(new HttpGet(URL));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(),"UTF-8"));
+            result=reader.readLine();
+
+            String[] presidentes = {
+                    result,
+                    "John F. Kennedy"
+            };
+
+            ArrayAdapter<String> adaptador =new ArrayAdapter(this,
+                    android.R.layout.simple_list_item_1, presidentes);
+            ListView milistview = (ListView) findViewById(R.id.listView);
+            milistview.setAdapter(adaptador);
+
+
+            JSONObject obj = new JSONObject(result);
+            JSONArray proveedores = obj.getJSONArray("result");
+
+            Toast.makeText(getApplicationContext(), proveedores.toString(), Toast.LENGTH_LONG).show();
+            List<Map<String,String>> data = new ArrayList<>();
+
+
+
+            /*for (int i=0;i<proveedores.length();i++){
+                JSONObject json = proveedores.getJSONObject(i);
+                Map<String,String> map = new HashMap<>(2);
+                map.put("id",json.getString("id"));
+                map.put("fecha",json.getString("fecha"));
+                data.add(map);
+            }
+            SimpleAdapter adapter = new SimpleAdapter(this,data,android.R.layout.simple_list_item_2,
+                    new String[]{"id","fecha"},new int[]{android.R.id.text1,android.R.id.text2});
+            ListView listaVisual = (ListView) findViewById(R.id.listView);
+            listaVisual.setAdapter(adapter);*/
+        }catch(JSONException e){
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+
+        }catch(ClientProtocolException e){
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+        }catch (IOException e){
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+        }
+    };
+    //-----------------------------------------------------------------------
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -114,8 +172,6 @@ public class Principal extends AppCompatActivity {
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
-        static Activity p;
-        private List<Reporte> reportes = new ArrayList<Reporte>();
 
         public PlaceholderFragment() {
         }
@@ -124,9 +180,8 @@ public class Principal extends AppCompatActivity {
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PlaceholderFragment newInstance(int sectionNumber, Activity pr) {
+        public static PlaceholderFragment newInstance(int sectionNumber) {
             PlaceholderFragment fragment = new PlaceholderFragment();
-            p = pr;
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
@@ -143,25 +198,6 @@ public class Principal extends AppCompatActivity {
                 rootView = inflater.inflate(R.layout.inicio, container, false);
 
                 //HACER LO QUE TENGA QUE VER CON INICIO
-                reportes.add(new Reporte("Seguridad", "robo", "san jose", "12/12/12"));
-
-
-                ArrayAdapter<Reporte> adapter = new AdaptadorReporte(p, reportes);
-                ListView list = (ListView) rootView.findViewById(R.id.listaReportes);
-                list.setAdapter(adapter);
-
-                list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View viewClicked,
-                                            int position, long id) {
-                        //Car clickedCar = myCars.get(position);
-                        String message = "Elegiste item No. " + (1 + position);
-                        Toast.makeText(p, message,
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-
             }
 
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){
@@ -260,11 +296,8 @@ public class Principal extends AppCompatActivity {
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        Activity p;
-
-        public SectionsPagerAdapter(FragmentManager fm, Activity p) {
+        public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
-            this.p = p;
         }
 
         @Override
@@ -276,7 +309,7 @@ public class Principal extends AppCompatActivity {
             if(position == 3){
                 return new MapFragment();
             }
-            return PlaceholderFragment.newInstance(position + 1, p);
+            return PlaceholderFragment.newInstance(position + 1);
 
         }
 
