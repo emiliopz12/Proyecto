@@ -27,23 +27,4 @@
         android:layout_centerHorizontal="true"
         android:src="@mipmap/ic_launcher" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Introduce el nombre de la película" />
-
-    <EditText
-        android:id="@+id/input_pelicula"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:inputType="text" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableRight="@android:drawable/ic_menu_search"
-        android:onClick="buscarPelicula"
-        android:text="Buscar" />
-
 </RelativeLayout>

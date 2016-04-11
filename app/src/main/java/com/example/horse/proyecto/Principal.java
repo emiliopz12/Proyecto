@@ -28,6 +28,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONObject;
+
 import java.util.Locale;
 
 public class Principal extends AppCompatActivity {
@@ -63,35 +65,11 @@ public class Principal extends AppCompatActivity {
             }
         });
 
+
     }//-------------------------------------------------------------------FIN ONCREATE
 
     //------------------- SERVICIO REST ----------------------------
 
-    public void buscarPelicula(View view) {
-        String titulo = inputPelicula.getText().toString();
-        if (!TextUtils.isEmpty(titulo)) {
-            String url = String.format(
-                    "http://mymovieapi.com/?title=%1$s&type=json&limit=10", titulo);
-            new LoadFilmTask().execute(url);
-        }
-    }
-
-    public static final String TAG = "com.amatellanes.pelicularest";
-
-    private class LoadFilmTask extends AsyncTask<String, Long, String> {
-        protected String doInBackground(String... urls) {
-            try {
-                return HttpRequest.get(urls[0]).accept("application/json")
-                        .body();
-            } catch (HttpRequest.HttpRequestException exception) {
-                return null;
-            }
-        }
-
-        protected void onPostExecute(String response) {
-            Log.i(TAG, response);
-        }
-    }
 
     //-----------------------------------------------------------------------
 
