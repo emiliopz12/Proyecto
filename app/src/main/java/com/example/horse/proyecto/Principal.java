@@ -262,7 +262,9 @@ public class Principal extends AppCompatActivity {
         }
 
         public PlaceholderFragment() {
-            reportes.add(new Reporte("Seguridad", "robo", "san jose", "12/12/12"));
+            reportes.add(new Reporte("Seguridad", "Robo", "San Jose", "12/12/12"));
+            reportes.add(new Reporte("Luz", "Poste caido", "Alajuela", "12/12/12"));
+            reportes.add(new Reporte("Agua", "Tuberia en mal estado", "Heredia", "12/12/12"));
         }
 
 
@@ -303,15 +305,6 @@ public class Principal extends AppCompatActivity {
             }
 
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){
-                rootView = inflater.inflate(R.layout.cuenta, container, false);
-
-                //HACER  LO QUE TENGA QUE VER CON CUENTA
-
-                //a.dispatchTakePictureIntent()
-
-            }
-
-            if(getArguments().getInt(ARG_SECTION_NUMBER) == 3){
                 rootView = inflater.inflate(R.layout.reporte, container, false);
 
 
@@ -323,6 +316,15 @@ public class Principal extends AppCompatActivity {
                         Toast.makeText(getContext(), "Tomar foto o seleccionar una", Toast.LENGTH_LONG).show();
                     }
                 });
+            }
+
+            if(getArguments().getInt(ARG_SECTION_NUMBER) == 3){
+                rootView = inflater.inflate(R.layout.cuenta, container, false);
+
+                //HACER  LO QUE TENGA QUE VER CON CUENTA
+
+                //a.dispatchTakePictureIntent()
+
             }
 
 
@@ -372,8 +374,6 @@ public class Principal extends AppCompatActivity {
                     return getString(R.string.title_section2).toUpperCase(l);
                 case 2:
                     return getString(R.string.title_section3).toUpperCase(l);
-                case 3:
-                    return getString(R.string.title_section4).toUpperCase(l);
             }
             return null;
         }
