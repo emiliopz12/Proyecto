@@ -26,7 +26,6 @@ public class InicioSession extends AppCompatActivity {
         });
 
 
-
         Button MiBoton = (Button) findViewById(R.id.btnEntrar);
 
         MiBoton.setOnClickListener(new View.OnClickListener() {
@@ -35,14 +34,13 @@ public class InicioSession extends AppCompatActivity {
 
             public void onClick(View arg0) {
 
-                nombre =(EditText) findViewById(R.id.editUsuario);
+                nombre = (EditText) findViewById(R.id.editUsuario);
                 String n = nombre.getText().toString();
-                contraseña =(EditText) findViewById(R.id.editContraseñaLogueo);
+                contraseña = (EditText) findViewById(R.id.editContraseñaLogueo);
                 String cont = contraseña.getText().toString();
-                if(n.isEmpty() || cont.isEmpty()) {
+                if (n.isEmpty() || cont.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Falta el nombre de Usuario o la Contraseña", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     Intent intento = new Intent(getApplicationContext(), Principal.class);
                     //finish();
                     startActivity(intento);
@@ -63,6 +61,12 @@ public class InicioSession extends AppCompatActivity {
                 Intent intento = new Intent(getApplicationContext(), Registro.class);
                 finish();
                 startActivity(intento);
+            }
+        });
+        findViewById(R.id.btnEntrar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(InicioSession.this, Principal.class));
             }
         });
 
