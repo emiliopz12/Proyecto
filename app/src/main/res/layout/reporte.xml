@@ -16,15 +16,24 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Reporte"
         android:id="@+id/textView2"
+        android:layout_marginTop="46dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="167dp" />
+        android:layout_centerHorizontal="true" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
-        android:layout_centerVertical="true"
+        android:src="@mipmap/ic_launcher"
+        android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true"
-        android:src="@mipmap/ic_launcher" />
+        android:layout_marginTop="48dp" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true" />
+
 </RelativeLayout>

@@ -2,6 +2,7 @@ package com.example.horse.proyecto;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -17,7 +18,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,7 +32,22 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class Principal extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -58,41 +77,68 @@ public class Principal extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                REST();
             }
         });
+
 
     }//-------------------------------------------------------------------FIN ONCREATE
 
     //------------------- SERVICIO REST ----------------------------
 
-    public void buscarPelicula(View view) {
-        String titulo = inputPelicula.getText().toString();
-        if (!TextUtils.isEmpty(titulo)) {
-            String url = String.format(
-                    "http://mymovieapi.com/?title=%1$s&type=json&limit=10", titulo);
-            new LoadFilmTask().execute(url);
-        }
-    }
+    public void REST(){
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        String URL = "http://api.geonames.org/citiesJSON?north=44.1&south=-9.9&east=-22.4&west=55.2&lang=de&username=demo";
+        try{
+            String result = "";
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpResponse response = httpclient.execute(new HttpGet(URL));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(),"UTF-8"));
+            result=reader.readLine();
 
-    public static final String TAG = "com.amatellanes.pelicularest";
+            String[] presidentes = {
+                    result,
+                    "John F. Kennedy"
+            };
 
-    private class LoadFilmTask extends AsyncTask<String, Long, String> {
-        protected String doInBackground(String... urls) {
-            try {
-                return HttpRequest.get(urls[0]).accept("application/json")
-                        .body();
-            } catch (HttpRequest.HttpRequestException exception) {
-                return null;
+            ArrayAdapter<String> adaptador =new ArrayAdapter(this,
+                    android.R.layout.simple_list_item_1, presidentes);
+            ListView milistview = (ListView) findViewById(R.id.listView);
+            milistview.setAdapter(adaptador);
+
+
+            JSONObject obj = new JSONObject(result);
+            JSONArray proveedores = obj.getJSONArray("result");
+
+            Toast.makeText(getApplicationContext(), proveedores.toString(), Toast.LENGTH_LONG).show();
+            List<Map<String,String>> data = new ArrayList<>();
+
+
+
+            /*for (int i=0;i<proveedores.length();i++){
+                JSONObject json = proveedores.getJSONObject(i);
+                Map<String,String> map = new HashMap<>(2);
+                map.put("id",json.getString("id"));
+                map.put("fecha",json.getString("fecha"));
+                data.add(map);
             }
-        }
+            SimpleAdapter adapter = new SimpleAdapter(this,data,android.R.layout.simple_list_item_2,
+                    new String[]{"id","fecha"},new int[]{android.R.id.text1,android.R.id.text2});
+            ListView listaVisual = (ListView) findViewById(R.id.listView);
+            listaVisual.setAdapter(adapter);*/
+        }catch(JSONException e){
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
 
-        protected void onPostExecute(String response) {
-            Log.i(TAG, response);
+        }catch(ClientProtocolException e){
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+        }catch (IOException e){
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
         }
-    }
-
+    };
     //-----------------------------------------------------------------------
 
     @Override
