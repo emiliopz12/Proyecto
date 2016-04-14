@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
@@ -281,6 +282,7 @@ public class Principal extends AppCompatActivity {
         }
 
         public PlaceholderFragment() {
+            reportes.add(new Reporte("Seguridad", "robo", "san jose", "12/12/12"));
         }
 
 
@@ -294,26 +296,28 @@ public class Principal extends AppCompatActivity {
                 rootView = inflater.inflate(R.layout.inicio, container, false);
 
                 //HACER LO QUE TENGA QUE VER CON INICIO
-                reportes.add(new Reporte("Seguridad", "robo", "san jose", "12/12/12"));
 
-                if(primera) {
+
+
                     ArrayAdapter<Reporte> adapter = new AdaptadorReporte(p, reportes);
                     ListView list = (ListView) rootView.findViewById(R.id.listaReportes);
                     list.setAdapter(adapter);
 
-                    list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View viewClicked,
-                                                int position, long id) {
-                            //Car clickedCar = myCars.get(position);
-                            String message = "Elegiste item No. " + (1 + position);
-                            Toast.makeText(p, message,
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
+                    if(primera) {
+                        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View viewClicked,
+                                                    int position, long id) {
+                                //Car clickedCar = myCars.get(position);
+                                String message = "Elegiste item No. " + (1 + position);
+                                Toast.makeText(p, message,
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        primera = false;
+                    }
 
-                primera = false;
+
 
                 //fab.setVisibility(View.VISIBLE);
             }
@@ -323,36 +327,24 @@ public class Principal extends AppCompatActivity {
 
                 //HACER  LO QUE TENGA QUE VER CON CUENTA
 
-                //a.dispatchTakePictureIntent();
+                //a.dispatchTakePictureIntent()
 
             }
 
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 3){
                 rootView = inflater.inflate(R.layout.reporte, container, false);
 
-                //HACER  LO QUE TENGA QUE VER CON REPORTE
 
-       /*         ImageButton imagen = (ImageButton) rootView.findViewById(R.id.imageButton);
+                ImageButton im = (ImageButton) rootView.findViewById(R.id.imageButton);
 
-                imagen.setOnClickListener(new View.OnClickListener() {
-
+                im.setOnClickListener(new View.OnClickListener() {
                     @Override
-
-                    public void onClick(View arg0) {
-                        //a.onLaunchCamera();
-
-                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-
-
+                    public void onClick(View v) {
+                        Toast.makeText(getContext(), "Tomar foto o seleccionar una", Toast.LENGTH_LONG).show();
                     }
-                });*/
-
-               // fab.setVisibility(View.INVISIBLE);
+                });
             }
 
-            //TextView textView = (TextView) rootView.findViewById(R.id.textView);
-            //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
 
             return rootView;
         }
@@ -408,12 +400,14 @@ public class Principal extends AppCompatActivity {
         public void onResume() {
             super.onResume();
             mMapView.onResume();
+
         }
 
         @Override
         public void onPause() {
             super.onPause();
             mMapView.onPause();
+
         }
 
         @Override
@@ -437,6 +431,7 @@ public class Principal extends AppCompatActivity {
 
         Activity p;
         Principal pp;
+        MapFragment map;
 
         public SectionsPagerAdapter(FragmentManager fm, Activity p, Principal pp) {
             super(fm);
@@ -449,8 +444,10 @@ public class Principal extends AppCompatActivity {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             //return PlaceholderFragment.newInstance(position + 1);
+            map = null;
             if(position == 3){
-                return new MapFragment();
+                map = new MapFragment();
+                return map;
             }
             return PlaceholderFragment.newInstance(position + 1, p, pp);
 
