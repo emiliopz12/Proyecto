@@ -259,8 +259,9 @@ public class Principal extends AppCompatActivity {
          * fragment.
          */
         private static String ARG_SECTION_NUMBER = "section_number";
-         static Activity p;
-         static Principal a;
+        static Activity p;
+        static Principal a;
+        static boolean primera = true;
         private List<Reporte> reportes = new ArrayList<Reporte>();
         static final int REQUEST_IMAGE_CAPTURE = 1;
 
@@ -295,21 +296,24 @@ public class Principal extends AppCompatActivity {
                 //HACER LO QUE TENGA QUE VER CON INICIO
                 reportes.add(new Reporte("Seguridad", "robo", "san jose", "12/12/12"));
 
+                if(primera) {
+                    ArrayAdapter<Reporte> adapter = new AdaptadorReporte(p, reportes);
+                    ListView list = (ListView) rootView.findViewById(R.id.listaReportes);
+                    list.setAdapter(adapter);
 
-                ArrayAdapter<Reporte> adapter = new AdaptadorReporte(p, reportes);
-                ListView list = (ListView) rootView.findViewById(R.id.listaReportes);
-                list.setAdapter(adapter);
+                    list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View viewClicked,
+                                                int position, long id) {
+                            //Car clickedCar = myCars.get(position);
+                            String message = "Elegiste item No. " + (1 + position);
+                            Toast.makeText(p, message,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
 
-                list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View viewClicked,
-                                            int position, long id) {
-                        //Car clickedCar = myCars.get(position);
-                        String message = "Elegiste item No. " + (1 + position);
-                        Toast.makeText(p, message,
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
+                primera = false;
 
                 //fab.setVisibility(View.VISIBLE);
             }
@@ -324,7 +328,7 @@ public class Principal extends AppCompatActivity {
             }
 
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 3){
-                rootView = inflater.inflate(R.layout.cuenta, container, false);
+                rootView = inflater.inflate(R.layout.reporte, container, false);
 
                 //HACER  LO QUE TENGA QUE VER CON REPORTE
 
@@ -449,6 +453,7 @@ public class Principal extends AppCompatActivity {
                 return new MapFragment();
             }
             return PlaceholderFragment.newInstance(position + 1, p, pp);
+
         }
 
         @Override
