@@ -313,7 +313,8 @@ public class Principal extends AppCompatActivity {
                 im.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getContext(), "Tomar foto o seleccionar una", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getContext(), "Tomar foto o seleccionar una", Toast.LENGTH_LONG).show();
+                        a.onLaunchCamera();
                     }
                 });
             }
@@ -324,6 +325,19 @@ public class Principal extends AppCompatActivity {
                 //HACER  LO QUE TENGA QUE VER CON CUENTA
 
                 //a.dispatchTakePictureIntent()
+                rootView.findViewById(R.id.fuera).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(a, InicioSession.class));
+                    }
+                });
+
+                rootView.findViewById(R.id.ajustes).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(a, ModificarUsuario.class));
+                    }
+                });
 
             }
 

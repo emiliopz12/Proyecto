@@ -1,10 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.example.horse.proyecto.Registro">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.horse.proyecto.ModificarUsuario"
+    tools:showIn="@layout/activity_modificar_usuario">
 
     <ScrollView
         android:layout_width="wrap_content"
@@ -36,7 +42,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:ems="10"
-                android:id="@+id/editEmail" />
+                android:id="@+id/editEmail"
+                android:text="Juan@gmail.com" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -51,7 +58,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:ems="10"
-                android:id="@+id/editContraseña" />
+                android:id="@+id/editContraseña"
+                android:text="123" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -67,7 +75,8 @@
                 android:inputType="textPassword"
                 android:ems="10"
                 android:id="@+id/editContraseña2"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:text="123" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -81,7 +90,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/editNombre"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:text="Juan" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -95,7 +105,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/editApellido1"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:text="Mora" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -108,7 +119,8 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editApellido2" />
+                android:id="@+id/editApellido2"
+                android:text="Castillo" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -125,7 +137,8 @@
                 android:ems="10"
                 android:id="@+id/editTelefono"
                 android:layout_gravity="center_horizontal"
-                android:maxLength="8" />
+                android:maxLength="8"
+                android:text="88888888" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -152,7 +165,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Registrarse"
+                android:text="Guardar"
                 android:id="@+id/btnRegistrarse"
                 android:minWidth="200dp"
                 android:layout_gravity="center_horizontal"

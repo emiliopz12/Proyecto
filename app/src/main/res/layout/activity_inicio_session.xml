@@ -67,7 +67,8 @@
                 android:layout_marginTop="45dp"
                 android:layout_below="@+id/textContraseña"
                 android:layout_centerHorizontal="true"
-                style="@android:style/Widget.DeviceDefault.Button.Inset" />
+                style="@android:style/Widget.Button"
+                android:textStyle="bold" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -78,7 +79,8 @@
                 android:layout_below="@+id/btnEntrar"
                 android:layout_alignLeft="@+id/btnEntrar"
                 android:layout_alignStart="@+id/btnEntrar"
-                style="@android:style/Widget.DeviceDefault.Button.Inset" />
+                style="@android:style/Widget.Button"
+                android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
 
