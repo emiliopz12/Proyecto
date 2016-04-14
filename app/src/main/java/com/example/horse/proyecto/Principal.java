@@ -30,15 +30,6 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -82,16 +73,21 @@ public class Principal extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Principal.this, Mapa.class));
+            }
+        });
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //REST();
                 onLaunchCamera();
             }
-        });
-
+        });*/
 
 
     }//-------------------------------------------------------------------FIN ONCREATE
@@ -290,7 +286,7 @@ public class Principal extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
-            View rootView = null;
+            View rootView = inflater.inflate(R.layout.fragment_principal, container, false);;
 
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 1){
                 rootView = inflater.inflate(R.layout.inicio, container, false);
@@ -350,78 +346,6 @@ public class Principal extends AppCompatActivity {
         }
     }
 
-    public static class MapFragment extends Fragment {
-
-        MapView mMapView;
-        private GoogleMap googleMap;
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            // inflate and return the layout
-            View v = inflater.inflate(R.layout.activity_mapa, container,
-                    false);
-            mMapView = (MapView) v.findViewById(R.id.mapView);
-            mMapView.onCreate(savedInstanceState);
-
-            mMapView.onResume();// needed to get the map to display immediately
-
-            try {
-                MapsInitializer.initialize(getActivity().getApplicationContext());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            googleMap = mMapView.getMap();
-            // latitude and longitude
-            double latitude = 9.971670;
-            double longitude = -84.128554;
-
-            // create marker
-            MarkerOptions marker = new MarkerOptions().position(
-                    new LatLng(latitude, longitude)).title("Hello Maps");
-
-            // Changing marker icon
-            marker.icon(BitmapDescriptorFactory
-                    .defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-
-            // adding marker
-            googleMap.addMarker(marker);
-            CameraPosition cameraPosition = new CameraPosition.Builder()
-                    .target(new LatLng(9.971670, -84.128554)).zoom(12).build();
-            googleMap.animateCamera(CameraUpdateFactory
-                    .newCameraPosition(cameraPosition));
-
-            // Perform any camera updates here
-            return v;
-        }
-
-        @Override
-        public void onResume() {
-            super.onResume();
-            mMapView.onResume();
-
-        }
-
-        @Override
-        public void onPause() {
-            super.onPause();
-            mMapView.onPause();
-
-        }
-
-        @Override
-        public void onDestroy() {
-            super.onDestroy();
-            mMapView.onDestroy();
-        }
-
-        @Override
-        public void onLowMemory() {
-            super.onLowMemory();
-            mMapView.onLowMemory();
-        }
-    }
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -431,7 +355,6 @@ public class Principal extends AppCompatActivity {
 
         Activity p;
         Principal pp;
-        MapFragment map;
 
         public SectionsPagerAdapter(FragmentManager fm, Activity p, Principal pp) {
             super(fm);
@@ -444,11 +367,7 @@ public class Principal extends AppCompatActivity {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             //return PlaceholderFragment.newInstance(position + 1);
-            map = null;
-            if(position == 3){
-                map = new MapFragment();
-                return map;
-            }
+
             return PlaceholderFragment.newInstance(position + 1, p, pp);
 
         }
@@ -456,7 +375,7 @@ public class Principal extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 4;
+            return 3;
         }
 
         @Override
