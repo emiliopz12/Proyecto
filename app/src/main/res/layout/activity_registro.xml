@@ -156,7 +156,8 @@
                 android:id="@+id/btnRegistrarse"
                 android:minWidth="200dp"
                 android:layout_gravity="center_horizontal"
-                android:enabled="true" />
+                android:enabled="true"
+                style="@android:style/Widget.DeviceDefault.Button.Inset" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -164,7 +165,8 @@
                 android:text="Cancelar"
                 android:id="@+id/btnCancelar"
                 android:layout_gravity="center_horizontal"
-                android:minWidth="200dp" />
+                android:minWidth="200dp"
+                style="@android:style/Widget.DeviceDefault.Button.Inset" />
 
         </LinearLayout>
     </ScrollView>

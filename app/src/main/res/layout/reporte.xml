@@ -28,6 +28,7 @@
         android:id="@+id/imageButton"
         android:src="@mipmap/ic_launcher"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        style="@android:style/Widget.DeviceDefault.Button.Inset" />
 
 </RelativeLayout>

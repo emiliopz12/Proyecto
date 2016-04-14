@@ -66,7 +66,8 @@
                 android:minWidth="220dp"
                 android:layout_marginTop="45dp"
                 android:layout_below="@+id/textContraseña"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                style="@android:style/Widget.DeviceDefault.Button.Inset" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -76,7 +77,8 @@
                 android:minWidth="220dp"
                 android:layout_below="@+id/btnEntrar"
                 android:layout_alignLeft="@+id/btnEntrar"
-                android:layout_alignStart="@+id/btnEntrar" />
+                android:layout_alignStart="@+id/btnEntrar"
+                style="@android:style/Widget.DeviceDefault.Button.Inset" />
         </LinearLayout>
     </ScrollView>
 
