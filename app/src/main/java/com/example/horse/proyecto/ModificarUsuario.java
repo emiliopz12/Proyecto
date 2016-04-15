@@ -37,6 +37,9 @@ public class ModificarUsuario extends AppCompatActivity {
             }
         });*/
 
+        setCurrentDateOnView();
+
+        addListenerOnButton();
 
         Button cancelar = (Button) findViewById(R.id.btnCancelar);
 

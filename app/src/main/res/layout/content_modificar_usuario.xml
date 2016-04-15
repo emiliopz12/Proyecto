@@ -43,7 +43,8 @@
                 android:inputType="textEmailAddress"
                 android:ems="10"
                 android:id="@+id/editEmail"
-                android:text="Juan@gmail.com" />
+                android:text="Juan@gmail.com"
+                android:background="@drawable/input_style" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -59,7 +60,8 @@
                 android:inputType="textPassword"
                 android:ems="10"
                 android:id="@+id/editContraseña"
-                android:text="123" />
+                android:text="123"
+                android:background="@drawable/input_style" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -76,7 +78,8 @@
                 android:ems="10"
                 android:id="@+id/editContraseña2"
                 android:layout_gravity="center_horizontal"
-                android:text="123" />
+                android:text="123"
+                android:background="@drawable/input_style" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -91,7 +94,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/editNombre"
                 android:layout_gravity="center_horizontal"
-                android:text="Juan" />
+                android:text="Juan"
+                android:background="@drawable/input_style" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -106,7 +110,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/editApellido1"
                 android:layout_gravity="center_horizontal"
-                android:text="Mora" />
+                android:text="Mora"
+                android:background="@drawable/input_style" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -120,7 +125,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/editApellido2"
-                android:text="Castillo" />
+                android:text="Castillo"
+                android:background="@drawable/input_style" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -138,7 +144,8 @@
                 android:id="@+id/editTelefono"
                 android:layout_gravity="center_horizontal"
                 android:maxLength="8"
-                android:text="88888888" />
+                android:text="88888888"
+                android:background="@drawable/input_style" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -153,7 +160,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/editNacimiento"
                 android:minWidth="50dp"
-                android:textSize="50px" />
+                android:textSize="17dp"
+                android:background="@drawable/input_style" />
 
             <Button
                 android:layout_width="wrap_content"

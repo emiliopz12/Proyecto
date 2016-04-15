@@ -26,6 +26,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.File;
@@ -306,6 +307,26 @@ public class Principal extends AppCompatActivity {
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){
                 rootView = inflater.inflate(R.layout.reporte, container, false);
 
+                Spinner s1;
+                final String[] presidents = {
+                        "Seguridad",
+                        "Luz",
+                        "Agua"};
+
+                s1 = (Spinner) rootView.findViewById(R.id.spinner);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_spinner_item, presidents);
+
+                s1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view,
+                                               int position, long id) {
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+                s1.setAdapter(adapter);
 
                 ImageButton im = (ImageButton) rootView.findViewById(R.id.imageButton);
 
@@ -317,6 +338,10 @@ public class Principal extends AppCompatActivity {
                     }
                 });
             }
+
+
+
+
 
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 3){
                 rootView = inflater.inflate(R.layout.cuenta, container, false);

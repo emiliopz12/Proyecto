@@ -64,7 +64,8 @@
                 android:inputType="textEmailAddress"
                 android:ems="10"
                 android:id="@+id/editEmail"
-                android:hint="Escribir email" />
+                android:hint="Escribir email"
+                android:background="@drawable/input_style" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -82,7 +83,8 @@
                 android:inputType="textPassword"
                 android:ems="10"
                 android:id="@+id/editContraseña"
-                android:hint="Escribir contraseña" />
+                android:hint="Escribir contraseña"
+                android:background="@drawable/input_style" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -101,7 +103,8 @@
                 android:ems="10"
                 android:id="@+id/editContraseña2"
                 android:layout_gravity="center_horizontal"
-                android:hint="Repetir contraseña" />
+                android:hint="Repetir contraseña"
+                android:background="@drawable/input_style" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -118,7 +121,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/editNombre"
                 android:layout_gravity="center_horizontal"
-                android:hint="Escribir nombre" />
+                android:hint="Escribir nombre"
+                android:background="@drawable/input_style" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -135,7 +139,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/editApellido1"
                 android:layout_gravity="center_horizontal"
-                android:hint="Escribir primer apellido" />
+                android:hint="Escribir primer apellido"
+                android:background="@drawable/input_style" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -151,7 +156,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/editApellido2"
-                android:hint="Escribir segundo apellido" />
+                android:hint="Escribir segundo apellido"
+                android:background="@drawable/input_style" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -171,7 +177,8 @@
                 android:id="@+id/editTelefono"
                 android:layout_gravity="center_horizontal"
                 android:maxLength="8"
-                android:hint="Escribir número de teléfono" />
+                android:hint="Escribir número de teléfono"
+                android:background="@drawable/input_style" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -188,9 +195,10 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/editNacimiento"
                 android:minWidth="50dp"
-                android:textSize="50px"
                 android:textStyle="bold"
-                android:textColor="#000000" />
+                android:textColor="#000000"
+                android:background="@drawable/input_style"
+                android:textSize="17dp" />
 
             <Button
                 android:layout_width="wrap_content"
