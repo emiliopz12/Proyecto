@@ -14,6 +14,7 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="section_format">Seccion: %1$d</string>
     <string name="title_activity_mapa">Mapa</string>
+    <string name="google_maps_key">AIzaSyCtgtnEx4UW74Dc5xJZKPIz1kTkieJixpc</string>
 
     <!-- Prueba -->
 
