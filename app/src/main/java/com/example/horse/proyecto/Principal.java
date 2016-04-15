@@ -285,7 +285,7 @@ public class Principal extends AppCompatActivity {
                     ListView list = (ListView) rootView.findViewById(R.id.listaReportes);
                     list.setAdapter(adapter);
 
-                    if(primera) {
+
                         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View viewClicked,
@@ -296,8 +296,7 @@ public class Principal extends AppCompatActivity {
                                         Toast.LENGTH_SHORT).show();
                             }
                         });
-                        primera = false;
-                    }
+
 
 
 
