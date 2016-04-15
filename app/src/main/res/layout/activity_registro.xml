@@ -54,7 +54,9 @@
                 android:layout_height="wrap_content"
                 android:text="Email"
                 android:id="@+id/textEmail"
-                android:textSize="25px" />
+                android:textSize="25px"
+                android:textStyle="bold"
+                android:textColor="#000000" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -70,7 +72,9 @@
                 android:text="Contraseña"
                 android:id="@+id/textContraseña"
                 android:textSize="25px"
-                android:paddingTop="20px" />
+                android:paddingTop="20px"
+                android:textStyle="bold"
+                android:textColor="#000000" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -86,7 +90,9 @@
                 android:text="Repita la Contraseña"
                 android:id="@+id/textContraseña2"
                 android:textSize="25px"
-                android:paddingTop="20px" />
+                android:paddingTop="20px"
+                android:textStyle="bold"
+                android:textColor="#000000" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -103,7 +109,9 @@
                 android:text="Nombre"
                 android:id="@+id/textNombre"
                 android:textSize="25px"
-                android:paddingTop="20px" />
+                android:paddingTop="20px"
+                android:textStyle="bold"
+                android:textColor="#000000" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -118,7 +126,9 @@
                 android:text="Primer Apellido "
                 android:id="@+id/textApellido1"
                 android:textSize="25px"
-                android:paddingTop="20px" />
+                android:paddingTop="20px"
+                android:textStyle="bold"
+                android:textColor="#000000" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -133,7 +143,9 @@
                 android:text="Segundo Apellido"
                 android:id="@+id/textApellido2"
                 android:textSize="25px"
-                android:paddingTop="20px" />
+                android:paddingTop="20px"
+                android:textStyle="bold"
+                android:textColor="#000000" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -147,7 +159,9 @@
                 android:text="Teléfono"
                 android:id="@+id/textTelefono"
                 android:textSize="25px"
-                android:paddingTop="20px" />
+                android:paddingTop="20px"
+                android:textStyle="bold"
+                android:textColor="#000000" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -157,7 +171,7 @@
                 android:id="@+id/editTelefono"
                 android:layout_gravity="center_horizontal"
                 android:maxLength="8"
-                android:hint="Escribir numero de telefono" />
+                android:hint="Escribir número de teléfono" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -165,14 +179,18 @@
                 android:text="Fecha de Nacimiento"
                 android:id="@+id/textNacimiento"
                 android:textSize="25px"
-                android:paddingTop="20px" />
+                android:paddingTop="20px"
+                android:textStyle="bold"
+                android:textColor="#000000" />
 
             <TextView
                 android:layout_width="201dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/editNacimiento"
                 android:minWidth="50dp"
-                android:textSize="50px" />
+                android:textSize="50px"
+                android:textStyle="bold"
+                android:textColor="#000000" />
 
             <Button
                 android:layout_width="wrap_content"
