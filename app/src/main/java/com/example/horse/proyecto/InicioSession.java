@@ -21,6 +21,8 @@ public class InicioSession extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        toolbar.setSubtitle("Iniciar Sessión");
+
         findViewById(R.id.btnRegistrarse).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
