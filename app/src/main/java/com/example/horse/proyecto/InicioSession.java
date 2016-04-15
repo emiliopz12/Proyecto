@@ -66,12 +66,12 @@ public class InicioSession extends AppCompatActivity {
                 startActivity(intento);
             }
         });
-        findViewById(R.id.btnEntrar).setOnClickListener(new View.OnClickListener() {
+        /*findViewById(R.id.btnEntrar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(InicioSession.this, Principal.class));
             }
-        });
+        });*/
 
     }//--------------------------------
 
