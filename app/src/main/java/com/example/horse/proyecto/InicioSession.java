@@ -73,6 +73,8 @@ public class InicioSession extends AppCompatActivity {
                     //finish();
                     if(REST(nom,contr)){
                         usuario = new Usuario(nom,contr);
+                        intento.putExtra("parametro", usuario);
+                        finish();
                         startActivity(intento);
                         Toast.makeText(getApplicationContext(), "Iniciado", Toast.LENGTH_SHORT).show();
                     }

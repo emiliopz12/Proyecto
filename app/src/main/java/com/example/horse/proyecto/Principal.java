@@ -59,6 +59,7 @@ public class Principal extends AppCompatActivity {
     private ViewPager mViewPager;
     private EditText inputPelicula;
     public static FloatingActionButton fab;
+    Usuario usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +85,8 @@ public class Principal extends AppCompatActivity {
             }
         });
 
+        usuario = (Usuario)getIntent().getExtras().getSerializable("parametro");
+
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +98,15 @@ public class Principal extends AppCompatActivity {
 
 
     }//-------------------------------------------------------------------FIN ONCREATE
+
+    @Override
+    public void onBackPressed() {
+        //Toast.makeText(getApplicationContext(), "Te atrape", Toast.LENGTH_LONG).show();
+        //super.onBackPressed(); //habilite esto si desea que se devuelva con el boton back
+        //Button MiBoton = (Button) findViewById(R.id.btnCancelar);
+        //MiBoton.performClick();
+
+    }
 
     //------------------- SERVICIO REST ----------------------------
 
@@ -455,6 +467,7 @@ public class Principal extends AppCompatActivity {
                 rootView.findViewById(R.id.fuera).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        a.finish();
                         startActivity(new Intent(a, InicioSession.class));
                     }
                 });

@@ -1,9 +1,11 @@
 package com.example.horse.proyecto;
 
+import java.io.Serializable;
+
 /**
  * Created by jean on 22/05/16.
  */
-public class Usuario {
+public class Usuario implements Serializable {
 
     public Usuario(){
         setCorreo("");
