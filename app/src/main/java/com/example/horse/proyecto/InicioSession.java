@@ -34,6 +34,7 @@ public class InicioSession extends AppCompatActivity {
 
     EditText nombre, contraseña;
     String nom, contr;
+    Usuario usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,7 @@ public class InicioSession extends AppCompatActivity {
                     Intent intento = new Intent(getApplicationContext(), Principal.class);
                     //finish();
                     if(REST(nom,contr)){
+                        usuario = new Usuario(nom,contr);
                         startActivity(intento);
                         Toast.makeText(getApplicationContext(), "Iniciado", Toast.LENGTH_SHORT).show();
                     }
