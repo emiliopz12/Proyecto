@@ -1,9 +1,12 @@
 package com.example.horse.proyecto;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
@@ -187,9 +190,11 @@ public class Principal extends AppCompatActivity {
         }
     }*/
 
+
     public final String APP_TAG = "MyCustomApp";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "photo.jpg";
+    public static boolean tomarFoto = true;
 
    /* public void onLaunchCamera() {
         // create Intent to take a picture and return control to the calling application
@@ -230,9 +235,21 @@ public class Principal extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            ((ImageView) findViewById(R.id.imageView)).setImageBitmap(imageBitmap);
+            if(tomarFoto == false && data != null){
+                Uri imageUri = data.getData();
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                    ((ImageView) findViewById(R.id.imageView)).setImageBitmap(bitmap);
+                }
+                catch (Exception e){
+
+                }
+            }
+            if(tomarFoto == true) {
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                ((ImageView) findViewById(R.id.imageView)).setImageBitmap(imageBitmap);
+            }
         }
     }
 
@@ -380,8 +397,45 @@ public class Principal extends AppCompatActivity {
 
                        // a.onLaunchCamera();
 
-                        Intent imageCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(imageCaptureIntent, REQUEST_IMAGE_CAPTURE);
+                       // Intent imageCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                     //   startActivityForResult(imageCaptureIntent, REQUEST_IMAGE_CAPTURE);
+
+
+                        //
+
+                        //Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                       // startActivityForResult(i, RESULT_LOAD_IMAGE);
+
+                                 //   Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                                 //   galleryIntent.setType("image/*");
+                                //    startActivityForResult(galleryIntent, 2);
+
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
+                        builder1.setMessage("Elija una opción");
+                        builder1.setCancelable(true);
+                        builder1.setPositiveButton("Tomar una fotografía",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+
+                                        Intent imageCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                        startActivityForResult(imageCaptureIntent, REQUEST_IMAGE_CAPTURE);
+                                        tomarFoto = true;
+
+                                    } });
+                        builder1.setNegativeButton("Cargar una fotografía",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+
+                                        Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                                        galleryIntent.setType("image/*");
+                                        startActivityForResult(galleryIntent, 2);
+                                        tomarFoto = false;
+
+                                    } });
+                        AlertDialog alert11 = builder1.create();
+                        alert11.show();
+
+
                     }
                 });
             }
