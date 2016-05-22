@@ -390,25 +390,26 @@ public class Principal extends AppCompatActivity {
 
                 ImageButton im = (ImageButton) rootView.findViewById(R.id.imageButton);
 
+
                 im.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //Toast.makeText(getContext(), "Tomar foto o seleccionar una", Toast.LENGTH_LONG).show();
 
-                       // a.onLaunchCamera();
+                        // a.onLaunchCamera();
 
-                       // Intent imageCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                     //   startActivityForResult(imageCaptureIntent, REQUEST_IMAGE_CAPTURE);
+                        // Intent imageCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        //   startActivityForResult(imageCaptureIntent, REQUEST_IMAGE_CAPTURE);
 
 
                         //
 
                         //Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                       // startActivityForResult(i, RESULT_LOAD_IMAGE);
+                        // startActivityForResult(i, RESULT_LOAD_IMAGE);
 
-                                 //   Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                                 //   galleryIntent.setType("image/*");
-                                //    startActivityForResult(galleryIntent, 2);
+                        //   Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                        //   galleryIntent.setType("image/*");
+                        //    startActivityForResult(galleryIntent, 2);
 
                         AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
                         builder1.setMessage("Elija una opción");
@@ -438,6 +439,7 @@ public class Principal extends AppCompatActivity {
 
                     }
                 });
+
             }
 
 
