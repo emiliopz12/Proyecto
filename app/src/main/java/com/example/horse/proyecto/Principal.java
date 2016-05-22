@@ -78,23 +78,23 @@ public class Principal extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
+        /*findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Principal.this, Mapa.class));
             }
-        });
+        });*/
 
         usuario = (Usuario)getIntent().getExtras().getSerializable("parametro");
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 REST();
                 //onLaunchCamera();
             }
-        });
+        });*/
 
 
     }//-------------------------------------------------------------------FIN ONCREATE
@@ -345,12 +345,20 @@ public class Principal extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
-            View rootView = inflater.inflate(R.layout.fragment_principal, container, false);;
+            View rootView = inflater.inflate(R.layout.fragment_principal, container, false);
 
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 1){
                 rootView = inflater.inflate(R.layout.inicio, container, false);
 
                 //HACER LO QUE TENGA QUE VER CON INICIO
+
+
+                rootView.findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getContext(), Mapa.class));
+                    }
+                });
 
 
 
@@ -377,6 +385,8 @@ public class Principal extends AppCompatActivity {
             }
 
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){
+
+
                 rootView = inflater.inflate(R.layout.reporte, container, false);
 
                 Spinner s1;
@@ -434,7 +444,8 @@ public class Principal extends AppCompatActivity {
                                         startActivityForResult(imageCaptureIntent, REQUEST_IMAGE_CAPTURE);
                                         tomarFoto = true;
 
-                                    } });
+                                    }
+                                });
                         builder1.setNegativeButton("Cargar una fotografía",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
@@ -444,13 +455,27 @@ public class Principal extends AppCompatActivity {
                                         startActivityForResult(galleryIntent, 2);
                                         tomarFoto = false;
 
-                                    } });
+                                    }
+                                });
                         AlertDialog alert11 = builder1.create();
                         alert11.show();
 
 
                     }
                 });
+
+
+                ImageButton im2 = (ImageButton) rootView.findViewById(R.id.ubicacion);
+
+
+                im2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intento = new Intent(getContext(), IngresarLocalizacion.class);
+                        startActivity(intento);
+                    }
+                });
+
 
             }
 

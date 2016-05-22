@@ -59,7 +59,7 @@
             <EditText
                 android:layout_width="200dp"
                 android:layout_height="match_parent"
-                android:inputType="textPersonName"
+                android:inputType="textPersonName|textAutoComplete"
                 android:ems="10"
                 android:id="@+id/editUsuario"
                 android:layout_above="@+id/textUsuario"
