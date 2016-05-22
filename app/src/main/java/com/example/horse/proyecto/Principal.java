@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -26,13 +27,28 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class Principal extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -65,24 +81,24 @@ public class Principal extends AppCompatActivity {
             }
         });
 
-        /*fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //REST();
-                onLaunchCamera();
+                REST();
+                //onLaunchCamera();
             }
-        });*/
+        });
 
 
     }//-------------------------------------------------------------------FIN ONCREATE
 
     //------------------- SERVICIO REST ----------------------------
 
-   /* public void REST(){
+    public void REST(){
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        String URL = "http://api.geonames.org/citiesJSON?north=44.1&south=-9.9&east=-22.4&west=55.2&lang=de&username=demo";
+        String URL = "http://empere12-001-site1.btempurl.com/WebServiceApiRouter.svc/api/reportes";
         try{
             String result = "";
             HttpClient httpclient = new DefaultHttpClient();
@@ -91,8 +107,7 @@ public class Principal extends AppCompatActivity {
             result=reader.readLine();
 
             String[] presidentes = {
-                    result,
-                    "John F. Kennedy"
+                    result
             };
 
             ArrayAdapter<String> adaptador =new ArrayAdapter(this,
@@ -131,7 +146,7 @@ public class Principal extends AppCompatActivity {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
         }
-    };*/
+    };
     //-----------------------------------------------------------------------
 
     @Override
@@ -334,6 +349,7 @@ public class Principal extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         //Toast.makeText(getContext(), "Tomar foto o seleccionar una", Toast.LENGTH_LONG).show();
+
                         a.onLaunchCamera();
                     }
                 });

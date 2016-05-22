@@ -12,6 +12,7 @@ import android.widget.Toast;
 public class InicioSession extends AppCompatActivity {
 
     EditText nombre, contraseña;
+    String nom, contr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +41,10 @@ public class InicioSession extends AppCompatActivity {
             public void onClick(View arg0) {
 
                 nombre = (EditText) findViewById(R.id.editUsuario);
-                String n = nombre.getText().toString();
+                nom = nombre.getText().toString();
                 contraseña = (EditText) findViewById(R.id.editContraseñaLogueo);
-                String cont = contraseña.getText().toString();
-                if (n.isEmpty() || cont.isEmpty()) {
+                contr = contraseña.getText().toString();
+                if (nom.isEmpty() || contr.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Falta el nombre de Usuario o la Contraseña", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intento = new Intent(getApplicationContext(), Principal.class);
@@ -68,12 +69,6 @@ public class InicioSession extends AppCompatActivity {
                 startActivity(intento);
             }
         });
-        /*findViewById(R.id.btnEntrar).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(InicioSession.this, Principal.class));
-            }
-        });*/
 
     }//--------------------------------
 

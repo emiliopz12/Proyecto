@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 public class Registro extends AppCompatActivity {
 
-    String email, contraseña, contraseña2, nombre, apellido1, apellido2, telefono, fecha;
+    String email, contraseña, contraseña2, nombre, apellido1, apellido2, telefono, fecha, m;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class Registro extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Registrado", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Toast.makeText(getApplicationContext(), "Debe llenar todas las opciones", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), m, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -78,24 +78,26 @@ public class Registro extends AppCompatActivity {
 
     public boolean required(){
         boolean exito = true;
+        m = "";
 
         EditText  ed =(EditText) findViewById(R.id.editEmail);
         email = ed.getText().toString();
-        if(isEmailValid(email)){
-            email = ed.getText().toString();
-        }
-        else {
-            //Email mal digitado
+        if(!isEmailValid(email)){
+            m = "Mal formato del Email";
+            exito = false;
         }
         ed =(EditText) findViewById(R.id.editContraseña);
         contraseña = ed.getText().toString();
         ed =(EditText) findViewById(R.id.editContraseña2);
         contraseña2 = ed.getText().toString();
-        if(contraseña.equals(contraseña2)){
-            //Contraseñas iguales
-        }
-        else {
-            //Alguna mal digitada
+        if(!contraseña.equals(contraseña2)){
+            if(m.isEmpty()){
+                m = "Contraseñas diferentes";
+            }
+            else {
+                m += " - Contraseñas diferentes";
+            }
+        exito = false;
         }
         ed =(EditText) findViewById(R.id.editNombre);
         nombre = ed.getText().toString();
@@ -111,6 +113,10 @@ public class Registro extends AppCompatActivity {
 
         if(email.isEmpty() || contraseña.isEmpty() || contraseña2.isEmpty() || nombre.isEmpty() ||
                 apellido1.isEmpty() || apellido2.isEmpty() || telefono.isEmpty() || fecha.isEmpty()){
+            if(m.isEmpty())
+                m = "Debe llenar todas las opciones";
+            else
+                m += " - Debe llenar todas las opciones";
             exito = false;
         }
 

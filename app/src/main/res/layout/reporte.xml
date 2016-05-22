@@ -104,4 +104,13 @@
         android:layout_below="@+id/editText"
         android:layout_centerHorizontal="true" />
 
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:layout_below="@+id/imageButton"
+        android:layout_toEndOf="@+id/textView4"
+        android:layout_alignLeft="@+id/editText"
+        android:layout_alignStart="@+id/editText" />
+
 </RelativeLayout>
