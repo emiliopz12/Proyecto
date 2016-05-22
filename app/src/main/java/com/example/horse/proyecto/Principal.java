@@ -3,8 +3,6 @@ package com.example.horse.proyecto;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
@@ -16,7 +14,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
@@ -41,7 +39,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -191,7 +188,7 @@ public class Principal extends AppCompatActivity {
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "photo.jpg";
 
-    public void onLaunchCamera() {
+   /* public void onLaunchCamera() {
         // create Intent to take a picture and return control to the calling application
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, getPhotoFileUri(photoFileName)); // set the image file name
@@ -218,10 +215,26 @@ public class Principal extends AppCompatActivity {
                 Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
         }
+    }*/
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+
+    private void dispatchTakePictureIntent() {
+        Intent imageCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(imageCaptureIntent, REQUEST_IMAGE_CAPTURE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            ((ImageView) findViewById(R.id.imageView)).setImageBitmap(imageBitmap);
+        }
     }
 
     // Returns the Uri for a photo stored on disk given the fileName
-    public Uri getPhotoFileUri(String fileName) {
+   /* public Uri getPhotoFileUri(String fileName) {
         // Only continue if the SD Card is mounted
         if (isExternalStorageAvailable()) {
             // Get safe storage directory for photos
@@ -239,7 +252,7 @@ public class Principal extends AppCompatActivity {
             return Uri.fromFile(new File(mediaStorageDir.getPath() + File.separator + fileName));
         }
         return null;
-    }
+    }*/
 
     // Returns true if external storage for photos is available
     private boolean isExternalStorageAvailable() {
@@ -350,7 +363,10 @@ public class Principal extends AppCompatActivity {
                     public void onClick(View v) {
                         //Toast.makeText(getContext(), "Tomar foto o seleccionar una", Toast.LENGTH_LONG).show();
 
-                        a.onLaunchCamera();
+                       // a.onLaunchCamera();
+
+                        Intent imageCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(imageCaptureIntent, REQUEST_IMAGE_CAPTURE);
                     }
                 });
             }
