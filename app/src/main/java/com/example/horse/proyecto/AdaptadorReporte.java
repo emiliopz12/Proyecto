@@ -37,11 +37,11 @@ public class AdaptadorReporte extends ArrayAdapter<Reporte> {
         textViewDesc.setText("Descripcion: "+reports.get(position).getDescripcion() + "\n"
                 + "Ubicacion: "+reports.get(position).getUbicacion() + "\n" + "Fecha: "+reports.get(position).getFecha());
         if(reports.get(position).getTipo().equalsIgnoreCase("seguridad"))
-            image.setImageResource(android.R.drawable.ic_lock_idle_lock);
+            image.setImageResource(R.drawable.seguridad);
         else if(reports.get(position).getTipo().equalsIgnoreCase("luz"))
-            image.setImageResource(android.R.drawable.ic_lock_idle_low_battery);
+            image.setImageResource(R.drawable.luz);
         else
-            image.setImageResource(android.R.drawable.ic_dialog_alert);
+            image.setImageResource(R.drawable.agua);
 
         return  listViewItem;
     }

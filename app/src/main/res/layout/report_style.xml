@@ -39,11 +39,10 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:id="@+id/imagen"
-        android:src="@android:drawable/ic_lock_idle_low_battery"
+        android:src="@drawable/agua"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:baselineAlignBottom="false"
-        android:tint="#2bf411" />
+        android:baselineAlignBottom="false" />
 
 </RelativeLayout>

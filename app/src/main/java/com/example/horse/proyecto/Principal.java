@@ -30,7 +30,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -48,10 +47,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class Principal extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -110,59 +107,7 @@ public class Principal extends AppCompatActivity {
 
     //------------------- SERVICIO REST ----------------------------
 
-    public void REST(){
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        String URL = "http://empere12-001-site1.btempurl.com/WebServiceApiRouter.svc/api/reportes";
-        try{
-            String result = "";
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpResponse response = httpclient.execute(new HttpGet(URL));
-            BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(),"UTF-8"));
-            result=reader.readLine();
 
-            String[] presidentes = {
-                    result
-            };
-
-            ArrayAdapter<String> adaptador =new ArrayAdapter(this,
-                    android.R.layout.simple_list_item_1, presidentes);
-            ListView milistview = (ListView) findViewById(R.id.listView);
-            milistview.setAdapter(adaptador);
-
-
-            JSONObject obj = new JSONObject(result);
-            JSONArray proveedores = obj.getJSONArray("result");
-
-            Toast.makeText(getApplicationContext(), proveedores.toString(), Toast.LENGTH_LONG).show();
-            List<Map<String,String>> data = new ArrayList<>();
-
-
-
-            for (int i=0;i<proveedores.length();i++){
-                JSONObject json = proveedores.getJSONObject(i);
-                Map<String,String> map = new HashMap<>(2);
-                map.put("id",json.getString("id"));
-                map.put("fecha",json.getString("fecha"));
-                data.add(map);
-            }
-            SimpleAdapter adapter = new SimpleAdapter(this,data,android.R.layout.simple_list_item_2,
-                    new String[]{"id","fecha"},new int[]{android.R.id.text1,android.R.id.text2});
-            ListView listaVisual = (ListView) findViewById(R.id.listView);
-            listaVisual.setAdapter(adapter);
-        }catch(JSONException e){
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
-
-        }catch(ClientProtocolException e){
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
-        }catch (IOException e){
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
-        }
-    };
-    //-----------------------------------------------------------------------
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -335,10 +280,60 @@ public class Principal extends AppCompatActivity {
         }
 
         public PlaceholderFragment() {
-            reportes.add(new Reporte("Seguridad", "Robo", "San Jose", "12/12/12"));
+/*            reportes.add(new Reporte("Seguridad", "Robo", "San Jose", "12/12/12"));
             reportes.add(new Reporte("Luz", "Poste caido", "Alajuela", "12/12/12"));
-            reportes.add(new Reporte("Agua", "Tuberia en mal estado", "Heredia", "12/12/12"));
+            reportes.add(new Reporte("Agua", "Tuberia en mal estado", "Heredia", "12/12/12"));*/
         }
+
+        public void cargaReportes(){
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            String URL = "http://empere12-001-site1.btempurl.com/WebServiceApiRouter.svc/api/reportes";
+            try{
+                String result = "";
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpResponse response = httpclient.execute(new HttpGet(URL));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(),"UTF-8"));
+                result=reader.readLine();
+
+
+                JSONObject obj = new JSONObject(result);
+                JSONArray proveedores = obj.getJSONArray("lista");
+
+
+                for (int i=0;i<proveedores.length();i++){
+                    JSONObject json = proveedores.getJSONObject(i);
+                    String fecha = json.getString("fecha");
+                    String tipo = json.getString("tipo");
+                    String descripcion = json.getString("descripcion");
+                    String direccion = json.getString("direccion");
+
+                    if(tipo.equals("1")){
+                        tipo = "Agua";
+                    }
+                    else if(tipo.equals("2")){
+                        tipo = "Luz";
+                    }
+                    else{
+                        tipo = "Seguridad";
+                    }
+
+
+                    reportes.add(new Reporte(tipo, descripcion, direccion, fecha));
+                    if(i == 10)
+                        break;
+
+                }
+
+            }catch(JSONException e){
+                e.printStackTrace();
+            }catch(ClientProtocolException e){
+                e.printStackTrace();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        };
+        //-----------------------------------------------------------------------
 
 
         @Override
@@ -351,6 +346,8 @@ public class Principal extends AppCompatActivity {
                 rootView = inflater.inflate(R.layout.inicio, container, false);
 
                 //HACER LO QUE TENGA QUE VER CON INICIO
+
+                cargaReportes();
 
 
                 rootView.findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
