@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -26,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -264,6 +266,11 @@ public class Principal extends AppCompatActivity {
         private List<Reporte> reportes = new ArrayList<Reporte>();
         static final int REQUEST_IMAGE_CAPTURE = 1;
 
+
+        static Spinner tipo, provincias;
+        static EditText descripcion;
+        static ImageView fotografia;
+
         /**
          * Returns a new instance of this fragment for the given section
          * number.
@@ -336,6 +343,74 @@ public class Principal extends AppCompatActivity {
         //-----------------------------------------------------------------------
 
 
+        public void guardarReporte(){
+
+
+            BitmapDrawable drawable = (BitmapDrawable) fotografia.getDrawable();
+            Bitmap bitmap = drawable.getBitmap();
+
+            Object tipoE = tipo.getSelectedItem();
+            Object provinciaE = provincias.getSelectedItem();
+            String descrip = descripcion.getText().toString();
+
+            String base64 = bitmapToBase64(bitmap);
+
+
+            if(bitmap != null && tipoE != null && provinciaE != null && descrip != ""){
+
+            }
+
+            /*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            String URL = "http://empere12-001-site1.btempurl.com/WebServiceApiRouter.svc/api/reportes";
+            try{
+                String result = "";
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpResponse response = httpclient.execute(new HttpGet(URL));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(),"UTF-8"));
+                result=reader.readLine();
+
+
+                JSONObject obj = new JSONObject(result);
+                JSONArray proveedores = obj.getJSONArray("lista");
+
+
+                for (int i=0;i<proveedores.length();i++){
+                    JSONObject json = proveedores.getJSONObject(i);
+                    String fecha = json.getString("fecha");
+                    String tipo = json.getString("tipo");
+                    String descripcion = json.getString("descripcion");
+                    String direccion = json.getString("direccion");
+
+                    if(tipo.equals("1")){
+                        tipo = "Agua";
+                    }
+                    else if(tipo.equals("2")){
+                        tipo = "Luz";
+                    }
+                    else{
+                        tipo = "Seguridad";
+                    }
+
+
+                    reportes.add(new Reporte(tipo, descripcion, direccion, fecha));
+                    if(i == 10)
+                        break;
+
+                }
+
+            }catch(JSONException e){
+                e.printStackTrace();
+            }catch(ClientProtocolException e){
+                e.printStackTrace();
+            }catch (IOException e){
+                e.printStackTrace();
+            }*/
+        };
+        //-----------------------------------------------------------------------
+
+
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -386,6 +461,10 @@ public class Principal extends AppCompatActivity {
 
                 rootView = inflater.inflate(R.layout.reporte, container, false);
 
+                fotografia = (ImageView) rootView.findViewById(R.id.imageView);
+
+                descripcion = (EditText) rootView.findViewById(R.id.descripcion);
+
                 Spinner s1;
                 final String[] presidents = {
                         "Seguridad",
@@ -406,6 +485,36 @@ public class Principal extends AppCompatActivity {
                     }
                 });
                 s1.setAdapter(adapter);
+
+                tipo = s1;
+
+                Spinner s2;
+                final String[] Provincias = {
+                        "San José",
+                        "Alajuela",
+                        "Cartago",
+                        "Heredia",
+                        "Guanacaste",
+                        "Puntarenas",
+                        "Limon"};
+
+                s2 = (Spinner) rootView.findViewById(R.id.spinner2);
+                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_spinner_item, Provincias);
+
+                s2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view,
+                                               int position, long id) {
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+                s2.setAdapter(adapter2);
+
+                provincias = s2;
+
 
                 ImageButton im = (ImageButton) rootView.findViewById(R.id.imageButton);
 
@@ -470,6 +579,16 @@ public class Principal extends AppCompatActivity {
                     public void onClick(View v) {
                         Intent intento = new Intent(getContext(), IngresarLocalizacion.class);
                         startActivity(intento);
+                    }
+                });
+
+                Button reporte = (Button) rootView.findViewById(R.id.realizarReporte);
+
+
+                reporte.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        guardarReporte();
                     }
                 });
 

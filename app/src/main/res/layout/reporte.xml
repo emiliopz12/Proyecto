@@ -17,29 +17,26 @@
         android:id="@+id/scrollView3" >
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:weightSum="1">
+            android:weightSum="1"
+            android:orientation="vertical">
 
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Realizar Reporte"
-                android:id="@+id/textView2"
-                android:textStyle="bold"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center_horizontal" />
+                android:id="@+id/realizarReporte"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.07" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tipo de reporte:"
+                android:layout_height="0dp"
+                android:text="Tipo de incidente:"
                 android:id="@+id/textView3"
                 android:textSize="25px"
                 android:layout_gravity="center_horizontal"
@@ -49,23 +46,54 @@
                 android:layout_marginTop="29dp"
                 android:layout_below="@+id/textView2"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:layout_weight="0.07" />
 
             <Spinner
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:id="@+id/spinner"
                 android:layout_column="1"
                 android:layout_gravity="center"
                 android:layout_below="@+id/textView3"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:background="@drawable/input_style" />
+                android:background="@drawable/input_style"
+                android:spinnerMode="dialog"
+                android:layout_weight="0.07" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Descripción:"
+                android:layout_height="0dp"
+                android:text="Provincia del incidente:"
+                android:id="@+id/provincia"
+                android:textSize="25px"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:layout_column="0"
+                android:layout_marginTop="29dp"
+                android:layout_below="@+id/textView2"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.07" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/spinner2"
+                android:layout_column="1"
+                android:layout_below="@+id/textView3"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:background="@drawable/input_style"
+                android:spinnerMode="dialog"
+                android:layout_weight="0.07" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="Descripción del incidente:"
                 android:id="@+id/textView4"
                 android:textSize="25px"
                 android:layout_gravity="center"
@@ -74,14 +102,15 @@
                 android:layout_column="0"
                 android:layout_below="@+id/spinner"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:layout_weight="0.07" />
 
             <EditText
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:inputType="textMultiLine"
                 android:ems="10"
-                android:id="@+id/editText"
+                android:id="@+id/descripcion"
                 android:layout_below="@+id/textView4"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
@@ -94,11 +123,11 @@
                 android:background="@drawable/input_style"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"
-                android:layout_weight="0.65" />
+                android:layout_weight="0.07" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:text="Fotografía:"
                 android:id="@+id/textView6"
                 android:textSize="25px"
@@ -107,7 +136,8 @@
                 android:layout_column="0"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.07" />
 
             <ImageView
                 android:layout_width="150dp"
@@ -118,11 +148,12 @@
                 android:layout_centerHorizontal="true"
                 android:scaleType="fitXY"
                 android:adjustViewBounds="true"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.07" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:text="Tomar fotografía:"
                 android:id="@+id/textView5"
                 android:textSize="25px"
@@ -131,22 +162,24 @@
                 android:textStyle="bold"
                 android:layout_column="0"
                 android:layout_above="@+id/imageButton"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:layout_weight="0.07" />
 
             <ImageButton
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:id="@+id/imageButton"
                 android:src="@mipmap/ic_launcher"
                 style="@android:style/Widget.DeviceDefault.Button.Inset"
                 android:layout_above="@+id/listView"
                 android:layout_centerHorizontal="true"
                 android:scaleType="fitXY"
-                android:adjustViewBounds="true" />
+                android:adjustViewBounds="true"
+                android:layout_weight="0.07" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:text="Agregar ubicación desde mapa:"
                 android:id="@+id/textView7"
                 android:textSize="25px"
@@ -156,7 +189,8 @@
                 android:layout_column="0"
                 android:layout_alignTop="@+id/ubicacion"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:layout_weight="0.07" />
 
             <ImageButton
                 style="@android:style/Widget.DeviceDefault.Button.Small"
@@ -173,15 +207,17 @@
                 android:scaleType="fitXY"
                 android:adjustViewBounds="true"
                 android:baselineAlignBottom="false"
-                android:foreground="#dc0f0f" />
+                android:foreground="#dc0f0f"
+                android:layout_weight="0.07" />
 
             <ListView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:id="@+id/listView"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:layout_weight="0.07" />
         </LinearLayout>
     </ScrollView>
 
