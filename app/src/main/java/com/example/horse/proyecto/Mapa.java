@@ -1,5 +1,8 @@
 package com.example.horse.proyecto;
 
+import android.content.Context;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
@@ -12,11 +15,14 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
 public class Mapa extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     double latitude = 9.971670;
     double longitude = -84.128554;
+    private Location locationCt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +32,10 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        LocationManager locationManagerCt = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationCt = locationManagerCt
+                .getLastKnownLocation(LocationManager.GPS_PROVIDER);
     }
 
 
@@ -47,17 +57,27 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback {
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));*/
 
-        MarkerOptions marker = new MarkerOptions().position(
-                new LatLng(latitude, longitude)).title("Descripcion: robo, Fecha:12/12/12");
+        List<Reporte> reportes = Principal.PlaceholderFragment.reportes;
 
-        // Changing marker icon
-        marker.icon(BitmapDescriptorFactory
-                .defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+        for(Reporte r: reportes){
+            MarkerOptions marker = new MarkerOptions().position(
+                    new LatLng(latitude, longitude)).title("Descripcion: robo, Fecha:12/12/12");
 
-        // adding marker
-        mMap.addMarker(marker);
+            // Changing marker icon
+            marker.icon(BitmapDescriptorFactory
+                    .defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+
+            // adding marker
+            mMap.addMarker(marker);
+
+        }
+
+
+        LatLng latLng = new LatLng(locationCt.getLatitude(),
+                locationCt.getLongitude());
+
         CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(new LatLng(9.971670, -84.128554)).zoom(12).build();
+                .target(latLng).zoom(12).build();
         mMap.animateCamera(CameraUpdateFactory
                 .newCameraPosition(cameraPosition));
     }
