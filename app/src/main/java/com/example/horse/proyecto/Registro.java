@@ -70,10 +70,16 @@ public class Registro extends AppCompatActivity {
             public void onClick(View arg0) {
 
                 if(required()) {
-                    Intent intento = new Intent(getApplicationContext(), InicioSession.class);
-                    finish();
-                    startActivity(intento);
-                    Toast.makeText(getApplicationContext(), "Registrado", Toast.LENGTH_SHORT).show();
+                    if(guardarUsuario(email,nombre,fecha,contraseña,telefono)){
+                        Intent intento = new Intent(getApplicationContext(), InicioSession.class);
+                        finish();
+                        startActivity(intento);
+                        Toast.makeText(getApplicationContext(), "Registrado", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), m, Toast.LENGTH_SHORT).show();
+                    }
+
                 }
                 else {
                     Toast.makeText(getApplicationContext(), m, Toast.LENGTH_SHORT).show();
@@ -86,12 +92,12 @@ public class Registro extends AppCompatActivity {
     }
 
 
-    public boolean guardarUsuario(){
+    public boolean guardarUsuario(String eemail, String nnombre, String nnacimiento, String clave, String ttelefono){
 
             boolean exito = false;
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
-            String URL = "http://empere12-001-site1.btempurl.com/WebServiceApiRouter.svc/api/login?usuario=" + "" + "&contrasena=" + "";
+            String URL = "http://empere12-001-site1.btempurl.com/WebServiceApiRouter.svc/api/registrar?email="+ eemail +"&cedula=0&nombre="+ nnombre +"&ap1=0&ap2=0&nacimiento="+ nnacimiento +"&clave="+ clave +"&foto=0&telefono=" + ttelefono;
             try{
                 String result = "";
                 HttpClient httpclient = new DefaultHttpClient();
@@ -101,7 +107,7 @@ public class Registro extends AppCompatActivity {
 
 
                 JSONObject obj = new JSONObject(result);
-                JSONArray proveedores = obj.getJSONArray("lista");
+                JSONArray proveedores = obj.getJSONArray("success");
 
                 if(proveedores.length() > 0){
                     exito = true;
@@ -158,7 +164,7 @@ public class Registro extends AppCompatActivity {
         ed =(EditText) findViewById(R.id.editTelefono);
         telefono = ed.getText().toString();
 
-        fecha = "" + (new StringBuilder().append(day).append("-").append(month + 1).append("-").append(year)
+        fecha = "" + (new StringBuilder().append(year).append("-").append(month + 1).append("-").append(day)
                .append(" "));
 
         if(email.isEmpty() || contraseña.isEmpty() || contraseña2.isEmpty() || nombre.isEmpty() ||
