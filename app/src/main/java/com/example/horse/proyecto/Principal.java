@@ -263,7 +263,7 @@ public class Principal extends AppCompatActivity {
         static Activity p;
         static Principal a;
         static boolean primera = true;
-        private List<Reporte> reportes = new ArrayList<Reporte>();
+        public static List<Reporte> reportes = new ArrayList<Reporte>();
         static final int REQUEST_IMAGE_CAPTURE = 1;
 
 
