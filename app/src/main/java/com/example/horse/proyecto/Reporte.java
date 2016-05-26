@@ -9,10 +9,14 @@ public class Reporte {
     private String descripcion;
     private String ubicacion;
     private String fecha;
+    private String latitud;
+    private String longitud;
 
 
-    public Reporte(String tipo, String descripcion, String ubicacion, String fecha) {
+    public Reporte(String tipo, String descripcion, String ubicacion, String fecha, String latitud, String longi) {
         this.setTipo(tipo);
+        this.setLatitud(latitud);
+        this.setLongitud(longi);
         this.setDescripcion(descripcion);
         this.setUbicacion(ubicacion);
         this.setFecha(fecha);
@@ -48,5 +52,21 @@ public class Reporte {
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
+    }
+
+    public String getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(String latitud) {
+        this.latitud = latitud;
+    }
+
+    public String getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(String longitud) {
+        this.longitud = longitud;
     }
 }

@@ -1,8 +1,5 @@
 package com.example.horse.proyecto;
 
-import android.content.Context;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
@@ -22,7 +19,6 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
     double latitude = 9.971670;
     double longitude = -84.128554;
-    private Location locationCt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +28,6 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        LocationManager locationManagerCt = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationCt = locationManagerCt
-                .getLastKnownLocation(LocationManager.GPS_PROVIDER);
     }
 
 
@@ -61,7 +53,7 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback {
 
         for(Reporte r: reportes){
             MarkerOptions marker = new MarkerOptions().position(
-                    new LatLng(latitude, longitude)).title("Descripcion: robo, Fecha:12/12/12");
+                    new LatLng(Double.parseDouble(r.getLatitud()), Double.parseDouble(r.getLongitud()))).title("Descripcion: " + r.getDescripcion() + ", Fecha:" + r.getFecha());
 
             // Changing marker icon
             marker.icon(BitmapDescriptorFactory
@@ -72,12 +64,8 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback {
 
         }
 
-
-        LatLng latLng = new LatLng(locationCt.getLatitude(),
-                locationCt.getLongitude());
-
         CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(latLng).zoom(12).build();
+                .target(new LatLng(9.971670, -84.128554)).zoom(12).build();
         mMap.animateCamera(CameraUpdateFactory
                 .newCameraPosition(cameraPosition));
     }
