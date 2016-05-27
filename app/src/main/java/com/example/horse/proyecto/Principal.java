@@ -314,6 +314,8 @@ public class Principal extends AppCompatActivity {
                     String tipo = json.getString("tipo");
                     String descripcion = json.getString("descripcion");
                     String direccion = json.getString("direccion");
+                    String lat = json.getString("latitud");
+                    String longi = json.getString("longitud");
 
                     if(tipo.equals("1")){
                         tipo = "Agua";
@@ -326,7 +328,7 @@ public class Principal extends AppCompatActivity {
                     }
 
 
-                    reportes.add(new Reporte(tipo, descripcion, direccion, fecha));
+                    reportes.add(new Reporte(tipo, descripcion, direccion, fecha, lat, longi));
                     if(i == 10)
                         break;
 
