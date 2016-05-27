@@ -27,7 +27,11 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -70,15 +74,15 @@ public class Registro extends AppCompatActivity {
             public void onClick(View arg0) {
 
                 if(required()) {
-                    if(guardarUsuario(email,nombre,fecha,contraseña,telefono)){
+                    //if(guardarUsuario(email,nombre,fecha,contraseña,telefono)){
                         Intent intento = new Intent(getApplicationContext(), InicioSession.class);
                         finish();
                         startActivity(intento);
                         Toast.makeText(getApplicationContext(), "Registrado", Toast.LENGTH_SHORT).show();
-                    }
+                    /*}
                     else {
                         Toast.makeText(getApplicationContext(), m, Toast.LENGTH_SHORT).show();
-                    }
+                    }*/
 
                 }
                 else {
@@ -97,7 +101,10 @@ public class Registro extends AppCompatActivity {
             boolean exito = false;
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
+            nnacimiento = arreglaFecha(nnacimiento);
+
             String URL = "http://empere12-001-site1.btempurl.com/WebServiceApiRouter.svc/api/registrar?email="+ eemail +"&cedula=0&nombre="+ nnombre +"&ap1=0&ap2=0&nacimiento="+ nnacimiento +"&clave="+ clave +"&foto=0&telefono=" + ttelefono;
+            //URL = URL.replace(" ", "");
             try{
                 String result = "";
                 HttpClient httpclient = new DefaultHttpClient();
@@ -106,12 +113,13 @@ public class Registro extends AppCompatActivity {
                 result=reader.readLine();
 
 
-                JSONObject obj = new JSONObject(result);
-                JSONArray proveedores = obj.getJSONArray("success");
 
-                if(proveedores.length() > 0){
-                    exito = true;
-                }
+                JSONObject obj = new JSONObject(result);
+                //JSONArray proveedores = obj.getJSONArray("success");
+
+                //if(proveedores.length() > 0){
+                //    exito = true;
+                //}
 
             }catch(JSONException e){
                 e.printStackTrace();
@@ -126,6 +134,22 @@ public class Registro extends AppCompatActivity {
             }
             return exito;
 
+    }
+
+    public String arreglaFecha(String fecha){
+
+        String[] s = fecha.split("-");
+
+        if(s[1].length() == 1){
+            s[1] = "0" + s[1];
+        }
+        if(s[2].length() == 1){
+            s[2] = "0" + s[2];
+        }
+
+        fecha = s[0] + "-" + s[1] + "-" + s[2];
+
+        return fecha;
     }
 
     boolean isEmailValid(CharSequence email) {
@@ -165,7 +189,7 @@ public class Registro extends AppCompatActivity {
         telefono = ed.getText().toString();
 
         fecha = "" + (new StringBuilder().append(year).append("-").append(month + 1).append("-").append(day)
-               .append(" "));
+               .append(""));
 
         if(email.isEmpty() || contraseña.isEmpty() || contraseña2.isEmpty() || nombre.isEmpty() ||
                 apellido1.isEmpty() || apellido2.isEmpty() || telefono.isEmpty() || fecha.isEmpty()){
