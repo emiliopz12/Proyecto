@@ -1,9 +1,7 @@
 package com.example.horse.proyecto;
 
 
-import android.content.Context;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
@@ -36,11 +34,6 @@ public class IngresarLocalizacion extends FragmentActivity implements OnMapReady
                 .findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
-
-
-        LocationManager locationManagerCt = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationCt = locationManagerCt
-                .getLastKnownLocation(LocationManager.GPS_PROVIDER);
     }
 
 
@@ -60,14 +53,15 @@ public class IngresarLocalizacion extends FragmentActivity implements OnMapReady
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+       mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setMyLocationEnabled(true);
 
-        LatLng latLng = new LatLng(locationCt.getLatitude(),
-                locationCt.getLongitude());
+        LatLng latLng = new LatLng(10.135489,
+                -84.248523);
 
 
         CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(latLng).zoom(12).build();
+                .target(latLng).zoom(7).build();
         mMap.animateCamera(CameraUpdateFactory
                 .newCameraPosition(cameraPosition));
 
@@ -84,7 +78,7 @@ public class IngresarLocalizacion extends FragmentActivity implements OnMapReady
 
                 marker = new MarkerOptions()
                         .position(point)
-                        .title("You are here")
+                        .title("Aquí")
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
 
                 mMap.addMarker(marker);

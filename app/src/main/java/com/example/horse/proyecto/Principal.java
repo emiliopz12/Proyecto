@@ -48,7 +48,9 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -58,7 +60,7 @@ public class Principal extends AppCompatActivity {
     private ViewPager mViewPager;
     private EditText inputPelicula;
     public static FloatingActionButton fab;
-    Usuario usuario;
+    public static Usuario usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -345,11 +347,16 @@ public class Principal extends AppCompatActivity {
         //-----------------------------------------------------------------------
 
 
-        public void guardarReporte(){
+        public boolean guardarReporte(){
 
+            boolean exito = true;
 
             BitmapDrawable drawable = (BitmapDrawable) fotografia.getDrawable();
             Bitmap bitmap = drawable.getBitmap();
+
+            if(bitmap != null){
+
+
 
             Object tipoE = tipo.getSelectedItem();
             Object provinciaE = provincias.getSelectedItem();
@@ -359,13 +366,26 @@ public class Principal extends AppCompatActivity {
 
 
             if(bitmap != null && tipoE != null && provinciaE != null && descrip != ""){
+                Date fechaHoy = new Date();
 
-            }
+                if(tipoE.equals("Agua")){
+                    tipoE = "1";
+                }
+                else if(tipoE.equals("Luz")){
+                    tipoE = "2";
+                }
+                else{
+                    tipoE = "3";
+                }
 
-            /*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd");
+
+
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
-            String URL = "http://empere12-001-site1.btempurl.com/WebServiceApiRouter.svc/api/reportes";
-            try{
+                    String URL = "http://empere12-001-site1.btempurl.com/WebServiceApiRouter.svc/api/insertarreporte?fecha="+dt1.format(fechaHoy)+"&tipo="+tipoE+"&ubicacion="+provinciaE+"&direccion="+provinciaE+"&descripcion="+descrip+"&puntaje=0&foto="+base64+"&ciudadano="+usuario.getCorreo()+"&ciudad=0&latitud="+IngresarLocalizacion.latitud+"&logitud="+IngresarLocalizacion.longitud;
+                URL = URL.replace("\n", "");
+                try{
                 String result = "";
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpResponse response = httpclient.execute(new HttpGet(URL));
@@ -374,10 +394,9 @@ public class Principal extends AppCompatActivity {
 
 
                 JSONObject obj = new JSONObject(result);
-                JSONArray proveedores = obj.getJSONArray("lista");
-
-
-                for (int i=0;i<proveedores.length();i++){
+               // JSONArray proveedores = obj.getJSONArray("sucess");
+               Toast.makeText(a.getApplicationContext(), "Reporte Agregado", Toast.LENGTH_LONG).show();
+              /*  for (int i=0;i<proveedores.length();i++){
                     JSONObject json = proveedores.getJSONObject(i);
                     String fecha = json.getString("fecha");
                     String tipo = json.getString("tipo");
@@ -395,19 +414,29 @@ public class Principal extends AppCompatActivity {
                     }
 
 
-                    reportes.add(new Reporte(tipo, descripcion, direccion, fecha));
-                    if(i == 10)
-                        break;
+                }*/
+
+
+
+                }catch(JSONException e){
+                    e.printStackTrace();
+
+
+                }catch(ClientProtocolException e){
+                    e.printStackTrace();
+
+                }catch (IOException e){
+                    e.printStackTrace();
+
+                }
+                catch (Exception e){
+                    e.printStackTrace();
 
                 }
 
-            }catch(JSONException e){
-                e.printStackTrace();
-            }catch(ClientProtocolException e){
-                e.printStackTrace();
-            }catch (IOException e){
-                e.printStackTrace();
-            }*/
+        }
+            }
+        return exito;
         };
         //-----------------------------------------------------------------------
 
