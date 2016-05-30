@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -156,6 +155,7 @@ public class Principal extends AppCompatActivity {
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "photo.jpg";
     public static boolean tomarFoto = true;
+    public static Bitmap FOTO = null;
 
    /* public void onLaunchCamera() {
         // create Intent to take a picture and return control to the calling application
@@ -199,8 +199,8 @@ public class Principal extends AppCompatActivity {
             if(tomarFoto == false && data != null){
                 Uri imageUri = data.getData();
                 try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                    ((ImageView) findViewById(R.id.imageView)).setImageBitmap(bitmap);
+                    FOTO = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                    ((ImageView) findViewById(R.id.imageView)).setImageBitmap(FOTO);
                 }
                 catch (Exception e){
 
@@ -208,22 +208,37 @@ public class Principal extends AppCompatActivity {
             }
             if(tomarFoto == true) {
                 Bundle extras = data.getExtras();
-                Bitmap imageBitmap = (Bitmap) extras.get("data");
-                ((ImageView) findViewById(R.id.imageView)).setImageBitmap(imageBitmap);
+                FOTO = (Bitmap) extras.get("data");
+                ((ImageView) findViewById(R.id.imageView)).setImageBitmap(FOTO);
             }
         }
     }
 
     public static String bitmapToBase64(Bitmap bitmap) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-        byte[] byteArray = byteArrayOutputStream .toByteArray();
-        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            byte[] b = baos.toByteArray();
+            String temp = Base64.encodeToString(b, Base64.DEFAULT);
+            return temp;
+        } catch (NullPointerException e) {
+            return null;
+        } catch (OutOfMemoryError e) {
+            return null;
+        }
     }
 
     public static Bitmap base64ToBitmap(String b64) {
-        byte[] imageAsBytes = Base64.decode(b64.getBytes(), Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
+        try {
+            byte[] encodeByte = Base64.decode(b64, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch (NullPointerException e) {
+            e.getMessage();
+            return null;
+        } catch (OutOfMemoryError e) {
+            return null;
+        }
     }
 
     // Returns the Uri for a photo stored on disk given the fileName
@@ -351,10 +366,9 @@ public class Principal extends AppCompatActivity {
 
             boolean exito = true;
 
-            BitmapDrawable drawable = (BitmapDrawable) fotografia.getDrawable();
-            Bitmap bitmap = drawable.getBitmap();
 
-            if(bitmap != null){
+
+            if(FOTO != null){
 
 
 
@@ -362,10 +376,10 @@ public class Principal extends AppCompatActivity {
             Object provinciaE = provincias.getSelectedItem();
             String descrip = descripcion.getText().toString();
 
-            String base64 = bitmapToBase64(bitmap);
+            String base64 = bitmapToBase64(FOTO);
 
 
-            if(bitmap != null && tipoE != null && provinciaE != null && descrip != ""){
+            if(FOTO != null && tipoE != null && provinciaE != null && descrip != ""){
                 Date fechaHoy = new Date();
 
                 if(tipoE.equals("Agua")){
@@ -385,17 +399,17 @@ public class Principal extends AppCompatActivity {
             StrictMode.setThreadPolicy(policy);
                     String URL = "http://empere12-001-site1.btempurl.com/WebServiceApiRouter.svc/api/insertarreporte?fecha="+dt1.format(fechaHoy)+"&tipo="+tipoE+"&ubicacion="+provinciaE+"&direccion="+provinciaE+"&descripcion="+descrip+"&puntaje=0&foto="+base64+"&ciudadano="+usuario.getCorreo()+"&ciudad=0&latitud="+IngresarLocalizacion.latitud+"&logitud="+IngresarLocalizacion.longitud;
                 URL = URL.replace("\n", "");
-                try{
-                String result = "";
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpResponse response = httpclient.execute(new HttpGet(URL));
-                BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(),"UTF-8"));
-                result=reader.readLine();
+                try {
+                    String result = "";
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpResponse response = httpclient.execute(new HttpGet(URL));
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
+                    result = reader.readLine();
 
 
-                JSONObject obj = new JSONObject(result);
-               // JSONArray proveedores = obj.getJSONArray("sucess");
-               Toast.makeText(a.getApplicationContext(), "Reporte Agregado", Toast.LENGTH_LONG).show();
+                    //JSONObject obj = new JSONObject(result);
+                    // JSONArray proveedores = obj.getJSONArray("sucess");
+                    Toast.makeText(a.getApplicationContext(), "Reporte Agregado", Toast.LENGTH_LONG).show();
               /*  for (int i=0;i<proveedores.length();i++){
                     JSONObject json = proveedores.getJSONObject(i);
                     String fecha = json.getString("fecha");
@@ -415,11 +429,6 @@ public class Principal extends AppCompatActivity {
 
 
                 }*/
-
-
-
-                }catch(JSONException e){
-                    e.printStackTrace();
 
 
                 }catch(ClientProtocolException e){
@@ -600,6 +609,10 @@ public class Principal extends AppCompatActivity {
 
                     }
                 });
+
+
+
+                //fotografia.setImageBitmap(a);
 
 
                 ImageButton im2 = (ImageButton) rootView.findViewById(R.id.ubicacion);
