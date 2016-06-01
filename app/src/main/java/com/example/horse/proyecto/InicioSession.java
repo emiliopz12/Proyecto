@@ -6,11 +6,8 @@ import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
@@ -25,10 +22,6 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class InicioSession extends AppCompatActivity {
 
@@ -107,7 +100,7 @@ public class InicioSession extends AppCompatActivity {
         boolean exito = false;
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        String URL = "http://empere12-001-site1.btempurl.com/WebServiceApiRouter.svc/api/login?usuario=" + us + "&contrasena=" + con;
+        String URL = "http://reporteando-001-site1.etempurl.com/WebServiceApiRouter.svc/api/login?usuario=" + us + "&contrasena=" + con;
         try{
             String result = "";
             HttpClient httpclient = new DefaultHttpClient();

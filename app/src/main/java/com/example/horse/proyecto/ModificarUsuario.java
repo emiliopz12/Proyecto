@@ -109,7 +109,7 @@ public class ModificarUsuario extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
         nnacimiento = arreglaFecha(nnacimiento);
 
-        String URL = "http://empere12-001-site1.btempurl.com/WebServiceApiRouter.svc/api/registrar?email="+ eemail +"&cedula=0&nombre="+ nnombre +"&ap1=0&ap2=0&nacimiento="+ nnacimiento +"&clave="+ clave +"&foto=0&telefono=" + ttelefono;
+        String URL = "http://reporteando-001-site1.etempurl.com/WebServiceApiRouter.svc/api/registrar?email="+ eemail +"&cedula=0&nombre="+ nnombre +"&ap1=0&ap2=0&nacimiento="+ nnacimiento +"&clave="+ clave +"&foto=0&telefono=" + ttelefono;
         //URL = URL.replace(" ", "");
         try{
             String result = "";

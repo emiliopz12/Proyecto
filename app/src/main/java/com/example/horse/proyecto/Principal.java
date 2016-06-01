@@ -156,6 +156,7 @@ public class Principal extends AppCompatActivity {
     public String photoFileName = "photo.jpg";
     public static boolean tomarFoto = true;
     public static Bitmap FOTO = null;
+    public static String b64;
 
    /* public void onLaunchCamera() {
         // create Intent to take a picture and return control to the calling application
@@ -201,6 +202,7 @@ public class Principal extends AppCompatActivity {
                 try {
                     FOTO = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                     ((ImageView) findViewById(R.id.imageView)).setImageBitmap(FOTO);
+                    b64 = bitmapToBase64(FOTO);
                 }
                 catch (Exception e){
 
@@ -210,6 +212,7 @@ public class Principal extends AppCompatActivity {
                 Bundle extras = data.getExtras();
                 FOTO = (Bitmap) extras.get("data");
                 ((ImageView) findViewById(R.id.imageView)).setImageBitmap(FOTO);
+                b64 = bitmapToBase64(FOTO);
             }
         }
     }
@@ -288,6 +291,7 @@ public class Principal extends AppCompatActivity {
         static EditText descripcion;
         static ImageView fotografia;
 
+
         /**
          * Returns a new instance of this fragment for the given section
          * number.
@@ -312,7 +316,7 @@ public class Principal extends AppCompatActivity {
         public void cargaReportes(){
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
-            String URL = "http://empere12-001-site1.btempurl.com/WebServiceApiRouter.svc/api/reportes";
+            String URL = "http://reporteando-001-site1.etempurl.com/WebServiceApiRouter.svc/api/reportes";
             try{
                 String result = "";
                 HttpClient httpclient = new DefaultHttpClient();
@@ -397,7 +401,7 @@ public class Principal extends AppCompatActivity {
 
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
-                    String URL = "http://empere12-001-site1.btempurl.com/WebServiceApiRouter.svc/api/insertarreporte?fecha="+dt1.format(fechaHoy)+"&tipo="+tipoE+"&ubicacion="+provinciaE+"&direccion="+provinciaE+"&descripcion="+descrip+"&puntaje=0&foto="+base64+"&ciudadano="+usuario.getCorreo()+"&ciudad=0&latitud="+IngresarLocalizacion.latitud+"&logitud="+IngresarLocalizacion.longitud;
+                    String URL = "http://reporteando-001-site1.etempurl.com/WebServiceApiRouter.svc/api/insertarreporte?fecha="+dt1.format(fechaHoy)+"&tipo="+tipoE+"&ubicacion="+provinciaE+"&direccion="+provinciaE+"&descripcion="+descrip+"&puntaje=0&foto="+base64+"&ciudadano="+usuario.getCorreo()+"&ciudad=0&latitud="+IngresarLocalizacion.latitud+"&logitud="+IngresarLocalizacion.longitud;
                 URL = URL.replace("\n", "");
                 try {
                     String result = "";
