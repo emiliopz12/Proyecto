@@ -19,6 +19,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,6 +33,9 @@ import java.util.regex.Pattern;
 public class ModificarUsuario extends AppCompatActivity {
 
     String email, contraseña, contraseña2, nombre, apellido1, apellido2, telefono, fecha, m;
+    EditText emailT, contraseñaT, contraseña2T, nombreT, apellido1T, apellido2T, telefonoT;
+    TextView fechaT;
+
     public static Usuario usuario;
 
     @Override
@@ -72,6 +76,16 @@ public class ModificarUsuario extends AppCompatActivity {
 
         });
 
+        emailT =(EditText) findViewById(R.id.editEmail);
+        contraseñaT =(EditText) findViewById(R.id.editContraseña);
+        contraseña2T =(EditText) findViewById(R.id.editContraseña2);
+        nombreT =(EditText) findViewById(R.id.editNombre);
+        apellido1T =(EditText) findViewById(R.id.editApellido1);
+        apellido2T =(EditText) findViewById(R.id.editApellido2);
+        telefonoT =(EditText) findViewById(R.id.editTelefono);
+        fechaT =(TextView) findViewById(R.id.editNacimiento);
+        cargarUsuario();
+
         Button registro = (Button) findViewById(R.id.btnRegistrarse);
 
         registro.setOnClickListener(new View.OnClickListener() {
@@ -81,16 +95,16 @@ public class ModificarUsuario extends AppCompatActivity {
             public void onClick(View arg0) {
 
                 if(required()) {
-                    if(modificarUsuario(email,nombre,apellido1,apellido2,fecha,contraseña,telefono)){
+                    //if(modificarUsuario(email,nombre,apellido1,apellido2,fecha,contraseña,telefono)){
                         Intent intento = new Intent(getApplicationContext(), Principal.class);
                         intento.putExtra("parametro", usuario);
                         finish();
                         startActivity(intento);
                         Toast.makeText(getApplicationContext(), "Usuario modificado", Toast.LENGTH_SHORT).show();
-                    }
+                    /*}
                     else {
                         Toast.makeText(getApplicationContext(), m, Toast.LENGTH_SHORT).show();
-                    }
+                    }*/
 
                 }
                 else {
@@ -101,16 +115,26 @@ public class ModificarUsuario extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        //Toast.makeText(getApplicationContext(), "Te atrape", Toast.LENGTH_LONG).show();
+        //super.onBackPressed(); //habilite esto si desea que se devuelva con el boton back
+        //Button MiBoton = (Button) findViewById(R.id.btnCancelar);
+        //MiBoton.performClick();
+
+    }
+
     boolean isEmailValid(CharSequence email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
 
     public void cargarUsuario(){
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        String URL = "";
+        String URL = "http://reporteando-001-site1.etempurl.com/WebServiceApiRouter.svc/api/ciudadanosiD?email=" + usuario.getCorreo();
         //URL = URL.replace(" ", "");
         try{
             String result = "";
@@ -120,11 +144,16 @@ public class ModificarUsuario extends AppCompatActivity {
             result=reader.readLine();
 
             JSONObject obj = new JSONObject(result);
-            //JSONArray proveedores = obj.getJSONArray("success");
+            emailT.setText(obj.getString("email"));
+            contraseñaT.setText(obj.getString("password"));
+            contraseña2T.setText(obj.getString("password"));
+            nombreT.setText(obj.getString("nombre"));
+            apellido1T.setText(obj.getString("apellido1"));
+            apellido2T.setText(obj.getString("apellido2"));
+            telefonoT.setText(obj.getString("telefono"));
+            //fechaT.setText(obj.getString("nacimiento"));
 
-            //if(proveedores.length() > 0){
-            //    exito = true;
-            //}
+
 
         }catch(JSONException e){
             e.printStackTrace();
@@ -140,15 +169,16 @@ public class ModificarUsuario extends AppCompatActivity {
     }
 
 
-    public boolean modificarUsuario(String eemail, String nnombre, String aapell1, String aapell2,
-                                    String nnacimiento, String clave, String ttelefono){
+    public boolean modificar(String nombColumn, String dato){
+
+        //tabla (ciudadanos),columna,dato,nombre columna primaria,dato primario (email)
 
         boolean exito = false;
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        nnacimiento = arreglaFecha(nnacimiento);
+        //nnacimiento = arreglaFecha(nnacimiento);
 
-        String URL = "http://reporteando-001-site1.etempurl.com/WebServiceApiRouter.svc/api/registrar?email="+ eemail +"&cedula=0&nombre="+ nnombre +"&ap1="+ aapell1 +"&ap2="+ aapell2 +"&nacimiento="+ nnacimiento +"&clave="+ clave +"&foto=0&telefono=" + ttelefono;
+        String URL = "http://reporteando-001-site1.etempurl.com/WebServiceApiRouter.svc/api/";
         //URL = URL.replace(" ", "");
         try{
             String result = "";
