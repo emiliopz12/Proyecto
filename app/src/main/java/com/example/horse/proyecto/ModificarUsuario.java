@@ -34,7 +34,6 @@ public class ModificarUsuario extends AppCompatActivity {
 
     String email, contraseña, contraseña2, nombre, apellido1, apellido2, telefono, fecha, m;
     EditText emailT, contraseñaT, contraseña2T, nombreT, apellido1T, apellido2T, telefonoT;
-    TextView fechaT;
 
     public static Usuario usuario;
 
@@ -45,18 +44,9 @@ public class ModificarUsuario extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
 
-        setCurrentDateOnView();
-
-        addListenerOnButton();
+        //setCurrentDateOnView();
+        //addListenerOnButton();
 
         usuario = (Usuario)getIntent().getExtras().getSerializable("parametro");
 
@@ -83,7 +73,6 @@ public class ModificarUsuario extends AppCompatActivity {
         apellido1T =(EditText) findViewById(R.id.editApellido1);
         apellido2T =(EditText) findViewById(R.id.editApellido2);
         telefonoT =(EditText) findViewById(R.id.editTelefono);
-        fechaT =(TextView) findViewById(R.id.editNacimiento);
         cargarUsuario();
 
         Button registro = (Button) findViewById(R.id.btnRegistrarse);
@@ -151,7 +140,17 @@ public class ModificarUsuario extends AppCompatActivity {
             apellido1T.setText(obj.getString("apellido1"));
             apellido2T.setText(obj.getString("apellido2"));
             telefonoT.setText(obj.getString("telefono"));
-            //fechaT.setText(obj.getString("nacimiento"));
+            String f = obj.getString("nacimiento");
+
+            String[] feho = f.split("/");
+            String[] feho2 = feho[2].split(" ");
+
+            year = Integer.parseInt(feho2[0]);
+            month = Integer.parseInt(feho[1]);
+            day = Integer.parseInt(feho[0]);
+
+            setCurrentDateOnView();
+            addListenerOnButton();
 
 
 
@@ -337,15 +336,15 @@ public class ModificarUsuario extends AppCompatActivity {
         tvDisplayDate = (TextView) findViewById(R.id.editNacimiento);
         //dpResult = (DatePicker) findViewById(R.id.nacimiento);
 
-        final Calendar c = Calendar.getInstance();
+        /*final Calendar c = Calendar.getInstance();
         year = c.get(Calendar.YEAR);
         month = c.get(Calendar.MONTH);
-        day = c.get(Calendar.DAY_OF_MONTH);
+        day = c.get(Calendar.DAY_OF_MONTH);*/
 
         tvDisplayDate.setText(new StringBuilder()
                 // Month is 0 based, just add 1
-                .append(day).append("-").append(month + 1).append("-")
-                .append(year).append(" "));
+                .append(day).append("-").append(month).append("-")
+                .append(year).append(""));
 
     }
 
