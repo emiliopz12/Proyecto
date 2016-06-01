@@ -74,15 +74,15 @@ public class Registro extends AppCompatActivity {
             public void onClick(View arg0) {
 
                 if(required()) {
-                    //if(guardarUsuario(email,nombre,fecha,contraseña,telefono)){
+                    if(guardarUsuario(email,nombre, apellido1, apellido2, fecha,contraseña,telefono)){
                         Intent intento = new Intent(getApplicationContext(), InicioSession.class);
                         finish();
                         startActivity(intento);
                         Toast.makeText(getApplicationContext(), "Registrado", Toast.LENGTH_SHORT).show();
-                    /*}
+                    }
                     else {
                         Toast.makeText(getApplicationContext(), m, Toast.LENGTH_SHORT).show();
-                    }*/
+                    }
 
                 }
                 else {
@@ -96,14 +96,14 @@ public class Registro extends AppCompatActivity {
     }
 
 
-    public boolean guardarUsuario(String eemail, String nnombre, String nnacimiento, String clave, String ttelefono){
+    public boolean guardarUsuario(String eemail, String nnombre, String ap1, String ap2, String nnacimiento, String clave, String ttelefono){
 
             boolean exito = false;
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
             nnacimiento = arreglaFecha(nnacimiento);
 
-            String URL = "http://empere12-001-site1.btempurl.com/WebServiceApiRouter.svc/api/registrar?email="+ eemail +"&cedula=0&nombre="+ nnombre +"&ap1=0&ap2=0&nacimiento="+ nnacimiento +"&clave="+ clave +"&foto=0&telefono=" + ttelefono;
+            String URL = "http://reporteando-001-site1.etempurl.com/WebServiceApiRouter.svc/api/registrar?email="+ eemail +"&cedula=0&nombre="+ nnombre +"&ap1="+ ap1 +"&ap2="+ ap2 +"&nacimiento="+ nnacimiento +"&clave="+ clave +"&foto=0&telefono=" + ttelefono;
             //URL = URL.replace(" ", "");
             try{
                 String result = "";
@@ -113,13 +113,16 @@ public class Registro extends AppCompatActivity {
                 result=reader.readLine();
 
 
-
                 JSONObject obj = new JSONObject(result);
-                //JSONArray proveedores = obj.getJSONArray("success");
+                String proveedores = obj.getString("success");
+                String proveedores2 = obj.getString("errorDetail");
 
-                //if(proveedores.length() > 0){
-                //    exito = true;
-                //}
+                if(proveedores.equals("true")){
+                    exito = true;
+                }
+                else {
+                    m = proveedores2;
+                }
 
             }catch(JSONException e){
                 e.printStackTrace();
@@ -132,8 +135,8 @@ public class Registro extends AppCompatActivity {
                 e.printStackTrace();
                 Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
             }
-            return exito;
 
+            return exito;
     }
 
     public String arreglaFecha(String fecha){

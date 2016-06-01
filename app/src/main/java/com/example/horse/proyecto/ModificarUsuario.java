@@ -32,6 +32,7 @@ import java.util.regex.Pattern;
 public class ModificarUsuario extends AppCompatActivity {
 
     String email, contraseña, contraseña2, nombre, apellido1, apellido2, telefono, fecha, m;
+    public static Usuario usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,8 @@ public class ModificarUsuario extends AppCompatActivity {
 
         addListenerOnButton();
 
+        usuario = (Usuario)getIntent().getExtras().getSerializable("parametro");
+
         Button cancelar = (Button) findViewById(R.id.btnCancelar);
 
         cancelar.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +64,7 @@ public class ModificarUsuario extends AppCompatActivity {
 
             public void onClick(View arg0) {
                 Intent intento = new Intent(getApplicationContext(), Principal.class);
+                intento.putExtra("parametro", usuario);
                 finish();
                 startActivity(intento);
                 Toast.makeText(getApplicationContext(), "Cancelado", Toast.LENGTH_SHORT).show();
@@ -79,6 +83,7 @@ public class ModificarUsuario extends AppCompatActivity {
                 if(required()) {
                     if(modificarUsuario(email,nombre,apellido1,apellido2,fecha,contraseña,telefono)){
                         Intent intento = new Intent(getApplicationContext(), Principal.class);
+                        intento.putExtra("parametro", usuario);
                         finish();
                         startActivity(intento);
                         Toast.makeText(getApplicationContext(), "Usuario modificado", Toast.LENGTH_SHORT).show();
@@ -101,6 +106,40 @@ public class ModificarUsuario extends AppCompatActivity {
     }
 
 
+    public void cargarUsuario(){
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        String URL = "";
+        //URL = URL.replace(" ", "");
+        try{
+            String result = "";
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpResponse response = httpclient.execute(new HttpGet(URL));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(),"UTF-8"));
+            result=reader.readLine();
+
+            JSONObject obj = new JSONObject(result);
+            //JSONArray proveedores = obj.getJSONArray("success");
+
+            //if(proveedores.length() > 0){
+            //    exito = true;
+            //}
+
+        }catch(JSONException e){
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+
+        }catch(ClientProtocolException e){
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+        }catch (IOException e){
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
     public boolean modificarUsuario(String eemail, String nnombre, String aapell1, String aapell2,
                                     String nnacimiento, String clave, String ttelefono){
 
@@ -109,7 +148,7 @@ public class ModificarUsuario extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
         nnacimiento = arreglaFecha(nnacimiento);
 
-        String URL = "http://reporteando-001-site1.etempurl.com/WebServiceApiRouter.svc/api/registrar?email="+ eemail +"&cedula=0&nombre="+ nnombre +"&ap1=0&ap2=0&nacimiento="+ nnacimiento +"&clave="+ clave +"&foto=0&telefono=" + ttelefono;
+        String URL = "http://reporteando-001-site1.etempurl.com/WebServiceApiRouter.svc/api/registrar?email="+ eemail +"&cedula=0&nombre="+ nnombre +"&ap1="+ aapell1 +"&ap2="+ aapell2 +"&nacimiento="+ nnacimiento +"&clave="+ clave +"&foto=0&telefono=" + ttelefono;
         //URL = URL.replace(" ", "");
         try{
             String result = "";

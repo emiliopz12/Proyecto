@@ -664,7 +664,11 @@ public class Principal extends AppCompatActivity {
                 rootView.findViewById(R.id.ajustes).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(a, ModificarUsuario.class));
+
+                        Intent intento = new Intent(a, ModificarUsuario.class);
+                        intento.putExtra("parametro", usuario);
+                        a.finish();
+                        startActivity(intento);
                     }
                 });
 
