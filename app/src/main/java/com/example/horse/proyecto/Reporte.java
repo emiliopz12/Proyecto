@@ -11,15 +11,17 @@ public class Reporte {
     private String fecha;
     private String latitud;
     private String longitud;
+    private String imagen;
 
 
-    public Reporte(String tipo, String descripcion, String ubicacion, String fecha, String latitud, String longi) {
+    public Reporte(String tipo, String descripcion, String ubicacion, String fecha, String latitud, String longi, String foto) {
         this.setTipo(tipo);
         this.setLatitud(latitud);
         this.setLongitud(longi);
         this.setDescripcion(descripcion);
         this.setUbicacion(ubicacion);
         this.setFecha(fecha);
+        this.setImagen(foto);
     }
 
     public String getTipo() {
@@ -68,5 +70,13 @@ public class Reporte {
 
     public void setLongitud(String longitud) {
         this.longitud = longitud;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 }

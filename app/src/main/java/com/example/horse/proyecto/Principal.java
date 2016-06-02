@@ -61,6 +61,8 @@ public class Principal extends AppCompatActivity {
     public static FloatingActionButton fab;
     public static Usuario usuario;
 
+    public static Bitmap fotoElegida;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -202,7 +204,7 @@ public class Principal extends AppCompatActivity {
                 try {
                     FOTO = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                     ((ImageView) findViewById(R.id.imageView)).setImageBitmap(FOTO);
-                    b64 = bitmapToBase64(FOTO);
+                    b64 = bitmapToBase64(FOTO, Bitmap.CompressFormat.JPEG, 100);
                 }
                 catch (Exception e){
 
@@ -212,36 +214,30 @@ public class Principal extends AppCompatActivity {
                 Bundle extras = data.getExtras();
                 FOTO = (Bitmap) extras.get("data");
                 ((ImageView) findViewById(R.id.imageView)).setImageBitmap(FOTO);
-                b64 = bitmapToBase64(FOTO);
+                b64 = bitmapToBase64(FOTO,Bitmap.CompressFormat.JPEG, 100);
             }
         }
     }
 
-    public static String bitmapToBase64(Bitmap bitmap) {
+    public static String bitmapToBase64(Bitmap image, Bitmap.CompressFormat compressFormat, int quality)
+    {
+        String base64 = null;
         try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-            byte[] b = baos.toByteArray();
-            String temp = Base64.encodeToString(b, Base64.DEFAULT);
-            return temp;
-        } catch (NullPointerException e) {
-            return null;
-        } catch (OutOfMemoryError e) {
-            return null;
+            ByteArrayOutputStream byteArrayOS = new ByteArrayOutputStream();
+            image.compress(compressFormat, quality, byteArrayOS);
+            base64 = Base64.encodeToString(byteArrayOS.toByteArray(), Base64.DEFAULT);
         }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        return base64;
     }
 
-    public static Bitmap base64ToBitmap(String b64) {
-        try {
-            byte[] encodeByte = Base64.decode(b64, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-            return bitmap;
-        } catch (NullPointerException e) {
-            e.getMessage();
-            return null;
-        } catch (OutOfMemoryError e) {
-            return null;
-        }
+    public static Bitmap decodeBase64(String input)
+    {
+        byte[] decodedBytes = Base64.decode(input, 0);
+        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
 
     // Returns the Uri for a photo stored on disk given the fileName
@@ -337,6 +333,7 @@ public class Principal extends AppCompatActivity {
                     String direccion = json.getString("direccion");
                     String lat = json.getString("latitud");
                     String longi = json.getString("longitud");
+                    String foto = json.getString("foto");
 
                     if(tipo.equals("1")){
                         tipo = "Agua";
@@ -349,7 +346,7 @@ public class Principal extends AppCompatActivity {
                     }
 
 
-                    reportes.add(new Reporte(tipo, descripcion, direccion, fecha, lat, longi));
+                    reportes.add(new Reporte(tipo, descripcion, direccion, fecha, lat, longi, foto));
                     if(i == 10)
                         break;
 
@@ -380,7 +377,7 @@ public class Principal extends AppCompatActivity {
             Object provinciaE = provincias.getSelectedItem();
             String descrip = descripcion.getText().toString();
 
-            String base64 = bitmapToBase64(FOTO);
+            //String base64 = bitmapToBase64(FOTO, Bitmap.CompressFormat.JPEG, 100);
 
 
             if(FOTO != null && tipoE != null && provinciaE != null && descrip != ""){
@@ -401,7 +398,7 @@ public class Principal extends AppCompatActivity {
 
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
-                    String URL = "http://reporteando-001-site1.etempurl.com/WebServiceApiRouter.svc/api/insertarreporte?fecha="+dt1.format(fechaHoy)+"&tipo="+tipoE+"&ubicacion="+provinciaE+"&direccion="+provinciaE+"&descripcion="+descrip+"&puntaje=0&foto="+base64+"&ciudadano="+usuario.getCorreo()+"&ciudad=0&latitud="+IngresarLocalizacion.latitud+"&logitud="+IngresarLocalizacion.longitud;
+                    String URL = "http://reporteando-001-site1.etempurl.com/WebServiceApiRouter.svc/api/insertarreporte?fecha="+dt1.format(fechaHoy)+"&tipo="+tipoE+"&ubicacion="+provinciaE+"&direccion="+provinciaE+"&descripcion="+descrip+"&puntaje=0&foto="+b64+"&ciudadano="+usuario.getCorreo()+"&ciudad=0&latitud="+IngresarLocalizacion.latitud+"&logitud="+IngresarLocalizacion.longitud;
                 URL = URL.replace("\n", "");
                 try {
                     String result = "";
@@ -488,9 +485,14 @@ public class Principal extends AppCompatActivity {
                             public void onItemClick(AdapterView<?> parent, View viewClicked,
                                                     int position, long id) {
                                 //Car clickedCar = myCars.get(position);
-                                String message = "Elegiste item No. " + (1 + position);
-                                Toast.makeText(p, message,
-                                        Toast.LENGTH_SHORT).show();
+
+                                Reporte report = reportes.get(position);
+
+                                fotoElegida = decodeBase64(report.getImagen());
+
+                                Intent intento = new Intent(getContext(), VerFoto.class);
+                                startActivity(intento);
+
                             }
                         });
 
