@@ -57,10 +57,10 @@ public class ModificarUsuario extends AppCompatActivity {
             @Override
 
             public void onClick(View arg0) {
-                Intent intento = new Intent(getApplicationContext(), Principal.class);
-                intento.putExtra("parametro", usuario);
+                //Intent intento = new Intent(getApplicationContext(), Principal.class);
+                //intento.putExtra("parametro", usuario);
                 finish();
-                startActivity(intento);
+                //startActivity(intento);
                 Toast.makeText(getApplicationContext(), "Cancelado", Toast.LENGTH_SHORT).show();
             }
 
@@ -84,16 +84,26 @@ public class ModificarUsuario extends AppCompatActivity {
             public void onClick(View arg0) {
 
                 if(required()) {
-                    //if(modificarUsuario(email,nombre,apellido1,apellido2,fecha,contraseña,telefono)){
-                        Intent intento = new Intent(getApplicationContext(), Principal.class);
-                        intento.putExtra("parametro", usuario);
+                    if(modificar("email", email)){
+                        modificar("clave", contraseña);
+                        modificar("nombre", nombre);
+                        modificar("apellido1", apellido1);
+                        modificar("apellido2", apellido2);
+                        modificar("telefono", telefono);
+                        modificar("nacimiento", fecha);
+
+                        Principal.usuario.setCorreo(email);
+                        Principal.usuario.setContraseña(contraseña);
+
+                        //Intent intento = new Intent(getApplicationContext(), Principal.class);
+                        //intento.putExtra("parametro", usuario);
                         finish();
-                        startActivity(intento);
+                        //startActivity(intento);
                         Toast.makeText(getApplicationContext(), "Usuario modificado", Toast.LENGTH_SHORT).show();
-                    /*}
+                    }
                     else {
                         Toast.makeText(getApplicationContext(), m, Toast.LENGTH_SHORT).show();
-                    }*/
+                    }
 
                 }
                 else {
@@ -110,7 +120,11 @@ public class ModificarUsuario extends AppCompatActivity {
         //super.onBackPressed(); //habilite esto si desea que se devuelva con el boton back
         //Button MiBoton = (Button) findViewById(R.id.btnCancelar);
         //MiBoton.performClick();
-
+        /*Intent intento = new Intent(getApplicationContext(), Principal.class);
+        intento.putExtra("parametro", usuario);
+        finish();
+        startActivity(intento);
+        Toast.makeText(getApplicationContext(), "Cancelado", Toast.LENGTH_SHORT).show();*/
     }
 
     boolean isEmailValid(CharSequence email) {
@@ -175,9 +189,11 @@ public class ModificarUsuario extends AppCompatActivity {
         boolean exito = false;
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        //nnacimiento = arreglaFecha(nnacimiento);
+        if(nombColumn.equals("nacimiento")) {
+            dato = arreglaFecha(dato);
+        }
 
-        String URL = "http://reporteando-001-site1.etempurl.com/WebServiceApiRouter.svc/api/";
+        String URL = "http://reporteando-001-site1.etempurl.com/WebServiceApiRouter.svc/api/modificar?dato="+ dato +"&id="+ usuario.getCorreo() +"&tabla=ciudadanos&columna="+ nombColumn +"&idcol=email";
         //URL = URL.replace(" ", "");
         try{
             String result = "";
@@ -189,11 +205,15 @@ public class ModificarUsuario extends AppCompatActivity {
 
 
             JSONObject obj = new JSONObject(result);
-            //JSONArray proveedores = obj.getJSONArray("success");
+            String proveedores = obj.getString("success");
+            //String proveedores = obj.getString("");
 
-            //if(proveedores.length() > 0){
-            //    exito = true;
-            //}
+            if(proveedores.equals("true")){
+                exito = true;
+            }
+            else {
+                m = "Error al modificar Usuario";
+            }
 
         }catch(JSONException e){
             e.printStackTrace();
