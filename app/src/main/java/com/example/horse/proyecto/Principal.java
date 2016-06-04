@@ -324,6 +324,7 @@ public class Principal extends AppCompatActivity {
                 JSONObject obj = new JSONObject(result);
                 JSONArray proveedores = obj.getJSONArray("lista");
 
+                reportes.clear();
 
                 for (int i=0;i<proveedores.length();i++){
                     JSONObject json = proveedores.getJSONObject(i);
@@ -463,8 +464,15 @@ public class Principal extends AppCompatActivity {
 
                 //HACER LO QUE TENGA QUE VER CON INICIO
 
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+
+
                 cargaReportes();
 
+                    }
+                }).start();
 
                 rootView.findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -472,8 +480,6 @@ public class Principal extends AppCompatActivity {
                         startActivity(new Intent(getContext(), Mapa.class));
                     }
                 });
-
-
 
                     ArrayAdapter<Reporte> adapter = new AdaptadorReporte(p, reportes);
                     ListView list = (ListView) rootView.findViewById(R.id.listaReportes);
@@ -490,11 +496,13 @@ public class Principal extends AppCompatActivity {
 
                                 fotoElegida = decodeBase64(report.getImagen());
 
-                                Intent intento = new Intent(getContext(), VerFoto.class);
+                                Intent intento = new Intent(getContext(), Imagen.class);
                                 startActivity(intento);
 
                             }
                         });
+
+
 
 
 

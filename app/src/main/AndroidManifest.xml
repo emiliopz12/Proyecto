@@ -33,11 +33,11 @@
         </activity>
         <activity
             android:name=".Registro"
-            android:label="@string/title_activity_registro"></activity>
+            android:label="@string/title_activity_registro" />
         <activity
             android:name=".Principal"
             android:label="@string/title_activity_principal"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -52,14 +52,14 @@
 
         <activity
             android:name=".Mapa"
-            android:label="@string/title_activity_mapa"></activity>
+            android:label="@string/title_activity_mapa" />
         <activity
             android:name=".IngresarLocalizacion"
-            android:label="@string/title_activity_mapa"></activity>
+            android:label="@string/title_activity_mapa" />
         <activity
             android:name=".ModificarUsuario"
             android:label="@string/title_activity_modificar_usuario"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <!--
              ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -71,12 +71,13 @@
         <activity
             android:name=".VerFoto"
             android:label="@string/title_activity_ver_foto"
-            android:parentActivityName=".Principal"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.horse.proyecto.Principal" />
+
+            <!-- <meta-data -->
+            <!-- android:name="android.support.PARENT_ACTIVITY" -->
+            <!-- android:value="com.example.horse.proyecto.Principal" /> -->
         </activity>
+        <activity android:name=".Imagen"></activity>
     </application>
 
 </manifest>
