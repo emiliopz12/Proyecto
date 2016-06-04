@@ -92,13 +92,13 @@ public class ModificarUsuario extends AppCompatActivity {
                         modificar("telefono", telefono);
                         modificar("nacimiento", fecha);
 
-                        usuario.setCorreo(email);
-                        usuario.setContraseña(contraseña);
+                        Principal.usuario.setCorreo(email);
+                        Principal.usuario.setContraseña(contraseña);
 
-                        Intent intento = new Intent(getApplicationContext(), Principal.class);
-                        intento.putExtra("parametro", usuario);
+                        //Intent intento = new Intent(getApplicationContext(), Principal.class);
+                        //intento.putExtra("parametro", usuario);
                         finish();
-                        startActivity(intento);
+                        //startActivity(intento);
                         Toast.makeText(getApplicationContext(), "Usuario modificado", Toast.LENGTH_SHORT).show();
                     }
                     else {
