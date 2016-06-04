@@ -144,13 +144,13 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:id="@+id/imageView"
-                android:background="#938181"
                 android:layout_below="@+id/textView6"
                 android:layout_centerHorizontal="true"
                 android:scaleType="fitXY"
                 android:adjustViewBounds="true"
                 android:layout_gravity="center_horizontal"
-                android:layout_weight="0.07" />
+                android:layout_weight="0.07"
+                android:src="@drawable/sincargar" />
 
             <TextView
                 android:layout_width="wrap_content"
