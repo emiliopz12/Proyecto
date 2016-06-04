@@ -669,7 +669,7 @@ public class Principal extends AppCompatActivity {
 
                         Intent intento = new Intent(a, ModificarUsuario.class);
                         intento.putExtra("parametro", usuario);
-                        a.finish();
+                        //a.finish();
                         startActivity(intento);
                     }
                 });
