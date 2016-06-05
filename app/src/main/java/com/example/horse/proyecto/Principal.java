@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Criteria;
@@ -59,6 +60,14 @@ import java.util.Locale;
 
 public class Principal extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
+
+    static final String FTP_HOST= "ftp.Smarterasp.net";
+
+    /*********  FTP USERNAME ***********/
+    static final String FTP_USER = "reporteando-001";
+
+    /*********  FTP PASSWORD ***********/
+    static final String FTP_PASS  ="reporte11";
 
     private ViewPager mViewPager;
     private EditText inputPelicula;
@@ -199,6 +208,7 @@ public class Principal extends AppCompatActivity {
         }
     }*/
 
+    public static FTP ftp;
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
     private void dispatchTakePictureIntent() {
@@ -206,15 +216,30 @@ public class Principal extends AppCompatActivity {
         startActivityForResult(imageCaptureIntent, REQUEST_IMAGE_CAPTURE);
     }
 
+    public String getRealPathFromURI(Uri uri) {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        @SuppressWarnings("deprecation")
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor
+                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
+            ftp = new FTP();
             if(tomarFoto == false && data != null){
                 Uri imageUri = data.getData();
                 try {
-                    FOTO = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                   FOTO = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+
                     ((ImageView) findViewById(R.id.imageView)).setImageBitmap(FOTO);
-                    b64 = bitmapToBase64(FOTO, Bitmap.CompressFormat.JPEG, 100);
+
+                    b64 = getRealPathFromURI(imageUri);
+
+
                 }
                 catch (Exception e){
 
@@ -222,9 +247,11 @@ public class Principal extends AppCompatActivity {
             }
             if(tomarFoto == true) {
                 Bundle extras = data.getExtras();
+                Uri imageUri = data.getData();
                 FOTO = (Bitmap) extras.get("data");
                 ((ImageView) findViewById(R.id.imageView)).setImageBitmap(FOTO);
-                b64 = bitmapToBase64(FOTO,Bitmap.CompressFormat.JPEG, 100);
+                //b64 = bitmapToBase64(FOTO,Bitmap.CompressFormat.JPEG, 100);
+                b64 = getRealPathFromURI(imageUri);
             }
         }
     }
@@ -248,6 +275,8 @@ public class Principal extends AppCompatActivity {
             // return null;
         }
     }
+
+
 
     public static String bitmapToBase64(Bitmap image, Bitmap.CompressFormat compressFormat, int quality)
     {
@@ -414,7 +443,13 @@ public class Principal extends AppCompatActivity {
 
                     Reporte report = reportes.get(position);
 
-                    fotoElegida = decodeBase64(report.getImagen());
+                    ftp = new FTP();
+
+
+                    ftp.setBitmap(fotoElegida);
+                    ftp.setNombreBajar(report.getImagen());
+
+                    ftp.iniciarDescarga();
 
                     Intent intento = new Intent(getContext(), Imagen.class);
                     startActivity(intento);
@@ -432,15 +467,11 @@ public class Principal extends AppCompatActivity {
 
             if(FOTO != null){
 
-
-
             Object tipoE = tipo.getSelectedItem();
             Object provinciaE = provincias.getSelectedItem();
             String descrip = descripcion.getText().toString();
 
             //String base64 = bitmapToBase64(FOTO, Bitmap.CompressFormat.JPEG, 100);
-
-
             if(FOTO != null && tipoE != null && provinciaE != null && descrip != ""){
                 Date fechaHoy = new Date();
 
@@ -459,8 +490,20 @@ public class Principal extends AppCompatActivity {
 
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
-                b64 = ":)";
+                //b64 = ":)";
+
+
                 String URL;
+
+
+                ftp.setNombreSubir(b64);
+
+                String[] cadenas = b64.split("/");
+                int ultimo = cadenas.length - 1;
+                b64 = cadenas[ultimo];
+
+
+
                 if(IngresarLocalizacion.latitud != 0) {
                     URL = "http://reporteando-001-site1.etempurl.com/WebServiceApiRouter.svc/api/insertarreporte?fecha=" + dt1.format(fechaHoy) + "&tipo=" + tipoE + "&ubicacion=" + provinciaE + "&direccion=" + provinciaE + "&descripcion=" + descrip.replace(" ", "%20") + "&puntaje=0&foto=" + b64 + "&ciudadano=" + usuario.getCorreo() + "&ciudad=0&latitud=" + IngresarLocalizacion.latitud + "&logitud=" + IngresarLocalizacion.longitud;
                 }
@@ -471,6 +514,8 @@ public class Principal extends AppCompatActivity {
                     URL = "http://reporteando-001-site1.etempurl.com/WebServiceApiRouter.svc/api/insertarreporte?fecha=" + dt1.format(fechaHoy) + "&tipo=" + tipoE + "&ubicacion=" + provinciaE + "&direccion=" + provinciaE + "&descripcion=" + descrip.replace(" ", "%20") + "&puntaje=0&foto=" + b64 + "&ciudadano=" + usuario.getCorreo() + "&ciudad=0&latitud=" + latitudActual + "&logitud=" + longitudActual;
                 }
                 URL = URL.replace("\n", "");
+
+
                 try {
                     String result = "";
                     HttpClient httpclient = new DefaultHttpClient();
@@ -478,6 +523,8 @@ public class Principal extends AppCompatActivity {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
                     result = reader.readLine();
 
+
+                    ftp.iniciarSubida();
 
                     //JSONObject obj = new JSONObject(result);
                     // JSONArray proveedores = obj.getJSONArray("sucess");

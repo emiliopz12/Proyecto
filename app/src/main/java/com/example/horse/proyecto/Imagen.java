@@ -4,18 +4,28 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class Imagen extends AppCompatActivity {
+
+    ImageView im;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_imagen);
 
+
+
+
+        while(FTP.FOTO == null){
+            Toast.makeText(getApplicationContext(), "Cargando...", Toast.LENGTH_SHORT).show();
+        }
+
+
         ImageView imagen = (ImageView) findViewById(R.id.imagenFoto);
 
-        imagen.setImageBitmap(Principal.fotoElegida);
-
+        imagen.setImageBitmap(FTP.FOTO);
 
         findViewById(R.id.volver).setOnClickListener(new View.OnClickListener() {
             @Override
