@@ -6,6 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -62,6 +65,10 @@ public class Principal extends AppCompatActivity {
     public static Usuario usuario;
 
     public static Bitmap fotoElegida;
+    public static LocationManager locationManager;
+
+    public static double latitudActual = 0;
+    public static double longitudActual = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +95,8 @@ public class Principal extends AppCompatActivity {
         });*/
 
         usuario = (Usuario)getIntent().getExtras().getSerializable("parametro");
+
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         /*fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -216,6 +225,26 @@ public class Principal extends AppCompatActivity {
                 ((ImageView) findViewById(R.id.imageView)).setImageBitmap(FOTO);
                 b64 = bitmapToBase64(FOTO,Bitmap.CompressFormat.JPEG, 100);
             }
+        }
+    }
+
+    public static void getLocation()
+    {
+        // Get the location manager
+
+        Criteria criteria = new Criteria();
+        String bestProvider = locationManager.getBestProvider(criteria, false);
+        Location location = locationManager.getLastKnownLocation(bestProvider);
+        Double lat,lon;
+        try {
+            latitudActual = location.getLatitude ();
+            longitudActual = location.getLongitude();
+
+            // return new LatLng(lat, lon);
+        }
+        catch (NullPointerException e){
+            e.printStackTrace();
+            // return null;
         }
     }
 
@@ -399,7 +428,17 @@ public class Principal extends AppCompatActivity {
 
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
-                    String URL = "http://reporteando-001-site1.etempurl.com/WebServiceApiRouter.svc/api/insertarreporte?fecha="+dt1.format(fechaHoy)+"&tipo="+tipoE+"&ubicacion="+provinciaE+"&direccion="+provinciaE+"&descripcion="+descrip+"&puntaje=0&foto="+b64+"&ciudadano="+usuario.getCorreo()+"&ciudad=0&latitud="+IngresarLocalizacion.latitud+"&logitud="+IngresarLocalizacion.longitud;
+                b64 = ":)";
+                String URL;
+                if(IngresarLocalizacion.latitud != 0) {
+                    URL = "http://reporteando-001-site1.etempurl.com/WebServiceApiRouter.svc/api/insertarreporte?fecha=" + dt1.format(fechaHoy) + "&tipo=" + tipoE + "&ubicacion=" + provinciaE + "&direccion=" + provinciaE + "&descripcion=" + descrip.replace(" ", "%20") + "&puntaje=0&foto=" + b64 + "&ciudadano=" + usuario.getCorreo() + "&ciudad=0&latitud=" + IngresarLocalizacion.latitud + "&logitud=" + IngresarLocalizacion.longitud;
+                }
+                else {
+
+                    getLocation();
+
+                    URL = "http://reporteando-001-site1.etempurl.com/WebServiceApiRouter.svc/api/insertarreporte?fecha=" + dt1.format(fechaHoy) + "&tipo=" + tipoE + "&ubicacion=" + provinciaE + "&direccion=" + provinciaE + "&descripcion=" + descrip.replace(" ", "%20") + "&puntaje=0&foto=" + b64 + "&ciudadano=" + usuario.getCorreo() + "&ciudad=0&latitud=" + latitudActual + "&logitud=" + longitudActual;
+                }
                 URL = URL.replace("\n", "");
                 try {
                     String result = "";

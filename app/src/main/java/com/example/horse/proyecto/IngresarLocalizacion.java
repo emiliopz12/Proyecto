@@ -1,9 +1,14 @@
 package com.example.horse.proyecto;
 
 
+import android.content.Context;
+import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,6 +24,9 @@ public class IngresarLocalizacion extends FragmentActivity implements OnMapReady
     private GoogleMap mMap;
     public static double latitud = 0;
     public static double longitud = 0;
+
+    public static double latitudActual = 0;
+    public static double longitudActual = 0;
     Location locationCt;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -34,6 +42,8 @@ public class IngresarLocalizacion extends FragmentActivity implements OnMapReady
                 .findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
+
+        getLocation();
     }
 
 
@@ -49,6 +59,26 @@ public class IngresarLocalizacion extends FragmentActivity implements OnMapReady
      */
 
     public static MarkerOptions marker;
+
+    public void getLocation()
+    {
+        // Get the location manager
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        String bestProvider = locationManager.getBestProvider(criteria, false);
+        Location location = locationManager.getLastKnownLocation(bestProvider);
+        Double lat,lon;
+        try {
+            latitudActual = location.getLatitude ();
+            longitudActual = location.getLongitude();
+
+           // return new LatLng(lat, lon);
+        }
+        catch (NullPointerException e){
+            e.printStackTrace();
+           // return null;
+        }
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -107,6 +137,48 @@ public class IngresarLocalizacion extends FragmentActivity implements OnMapReady
                 .newCameraPosition(cameraPosition));*/
     }
 
+    public class GPS_Location implements LocationListener {
 
+
+        public GPS_Location(){
+            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        }
+
+
+        @Override
+        public void onLocationChanged(Location location) {
+            // TODO Auto-generated method stub
+
+            latitud = (location.getLatitude());
+            longitud =  (location.getLongitude());
+
+            Toast.makeText(getApplicationContext(), "Latitude: " + latitud + ", Longitude: " + longitud, Toast.LENGTH_LONG).show();
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+            // TODO Auto-generated method stub
+
+        }
+
+    }
 
 }
+
+
+
+
