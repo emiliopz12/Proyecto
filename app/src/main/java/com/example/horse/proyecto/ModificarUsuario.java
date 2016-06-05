@@ -85,7 +85,9 @@ public class ModificarUsuario extends AppCompatActivity {
 
                 if(required()) {
                     if(modificar("email", email)){
+                        usuario.setCorreo(email);
                         modificar("clave", contraseña);
+                        usuario.setContraseña(contraseña);
                         modificar("nombre", nombre);
                         modificar("apellido1", apellido1);
                         modificar("apellido2", apellido2);
@@ -160,8 +162,8 @@ public class ModificarUsuario extends AppCompatActivity {
             String[] feho2 = feho[2].split(" ");
 
             year = Integer.parseInt(feho2[0]);
-            month = Integer.parseInt(feho[1]);
-            day = Integer.parseInt(feho[0]);
+            month = Integer.parseInt(feho[0]);
+            day = Integer.parseInt(feho[1]);
 
             setCurrentDateOnView();
             addListenerOnButton();
@@ -299,7 +301,7 @@ public class ModificarUsuario extends AppCompatActivity {
         ed =(EditText) findViewById(R.id.editTelefono);
         telefono = ed.getText().toString();
 
-        fecha = "" + (new StringBuilder().append(year).append("-").append(month + 1).append("-").append(day)
+        fecha = "" + (new StringBuilder().append(year).append("-").append(month).append("-").append(day)
                 .append(""));
 
         if(email.isEmpty() || contraseña.isEmpty() || contraseña2.isEmpty() || nombre.isEmpty() ||
@@ -425,13 +427,13 @@ public class ModificarUsuario extends AppCompatActivity {
         public void onDateSet(DatePicker view, int selectedYear,
                               int selectedMonth, int selectedDay) {
             year = selectedYear;
-            month = selectedMonth;
+            month = selectedMonth + 1;
             day = selectedDay;
 
             tvDisplayDate.setText(new StringBuilder()
                     // Month is 0 based, just add 1
-                    .append(day).append("-").append(month + 1).append("-")
-                    .append(year).append(" "));
+                    .append(day).append("-").append(month).append("-")
+                    .append(year).append(""));
 
         }
     };
