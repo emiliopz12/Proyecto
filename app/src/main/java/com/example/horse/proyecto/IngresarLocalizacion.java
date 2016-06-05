@@ -8,6 +8,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -44,10 +45,29 @@ public class IngresarLocalizacion extends FragmentActivity implements OnMapReady
         mapFragment.getMapAsync(this);
 
         getLocation();
+
+        findViewById(R.id.cancelar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                latitud = longitud = 0;
+                volver();
+            }
+        });
+
+        findViewById(R.id.listo).setVisibility(View.INVISIBLE);
+        findViewById(R.id.listo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                volver();
+            }
+        });
+
     }
 
-
-
+    public void volver(){
+        this.finish();
+        super.onBackPressed();
+    }
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -69,7 +89,7 @@ public class IngresarLocalizacion extends FragmentActivity implements OnMapReady
         Location location = locationManager.getLastKnownLocation(bestProvider);
         Double lat,lon;
         try {
-            latitudActual = location.getLatitude ();
+            latitudActual = location.getLatitude();
             longitudActual = location.getLongitude();
 
            // return new LatLng(lat, lon);
@@ -101,6 +121,7 @@ public class IngresarLocalizacion extends FragmentActivity implements OnMapReady
             public void onMapLongClick(LatLng point) {
 
                 mMap.clear();
+                findViewById(R.id.listo).setVisibility(View.VISIBLE);
 
                 latitud = point.latitude;
 
