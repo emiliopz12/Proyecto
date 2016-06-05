@@ -10,6 +10,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
@@ -315,6 +316,7 @@ public class Principal extends AppCompatActivity {
         static Spinner tipo, provincias;
         static EditText descripcion;
         static ImageView fotografia;
+        static ListView list;
 
 
         /**
@@ -392,6 +394,35 @@ public class Principal extends AppCompatActivity {
         };
         //-----------------------------------------------------------------------
 
+
+        public void cargaEnLista(){
+
+
+            try {
+                ArrayAdapter<Reporte> adapter = new AdaptadorReporte(p, reportes);
+                list.setAdapter(adapter);
+
+            }
+            catch (Exception e){
+                System.out.print(e.getMessage());
+            }
+            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View viewClicked,
+                                        int position, long id) {
+                    //Car clickedCar = myCars.get(position);
+
+                    Reporte report = reportes.get(position);
+
+                    fotoElegida = decodeBase64(report.getImagen());
+
+                    Intent intento = new Intent(getContext(), Imagen.class);
+                    startActivity(intento);
+
+                }
+            });
+
+        };
 
         public boolean guardarReporte(){
 
@@ -503,15 +534,21 @@ public class Principal extends AppCompatActivity {
 
                 //HACER LO QUE TENGA QUE VER CON INICIO
 
-                new Thread(new Runnable() {
+                list = (ListView) rootView.findViewById(R.id.listaReportes);
+
+
+                Hilo01 MiHilo01 = new Hilo01();
+                MiHilo01.execute();
+
+               /* new Thread(new Runnable() {
                     @Override
                     public void run() {
 
-
                 cargaReportes();
+                cargaEnLista();
 
                     }
-                }).start();
+                }).start();*/
 
                 rootView.findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -519,31 +556,6 @@ public class Principal extends AppCompatActivity {
                         startActivity(new Intent(getContext(), Mapa.class));
                     }
                 });
-
-                    ArrayAdapter<Reporte> adapter = new AdaptadorReporte(p, reportes);
-                    ListView list = (ListView) rootView.findViewById(R.id.listaReportes);
-                    list.setAdapter(adapter);
-
-
-                        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View viewClicked,
-                                                    int position, long id) {
-                                //Car clickedCar = myCars.get(position);
-
-                                Reporte report = reportes.get(position);
-
-                                fotoElegida = decodeBase64(report.getImagen());
-
-                                Intent intento = new Intent(getContext(), Imagen.class);
-                                startActivity(intento);
-
-                            }
-                        });
-
-
-
-
 
 
                 //fab.setVisibility(View.VISIBLE);
@@ -726,6 +738,67 @@ public class Principal extends AppCompatActivity {
 
             return rootView;
         }
+
+
+        private class Hilo01 extends AsyncTask<Void,Integer,Boolean> {
+            // Parametro 1 (Void) es para doInBackground
+// Parametro 2 (Integer) es para onProgressUpdate
+// Parametro 3 (Boolean) tipo de respuesta del doInBackground!!
+//Usted los puede cambiar como guste!!
+
+
+            // Coloque aquí las tareas que deben hacerse (en el hilo principal) antes de enviar el hilo a trabajar en segundo plano
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                // Iniciacion
+
+
+            }
+
+            // Tareas que se ejecutaran en segundo plano
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                // Tareas ejecutadas en segundo plano
+
+                // Puede llamar al metodo publishProgress que permite comunicarse con el hilo principal
+                // Ejemplo: publishProgress(10); // que enviaria 10 a onProgressUpdate
+
+                cargaReportes();
+
+
+                return true;
+            }
+
+            // Se ejecuta cuando se llama a publishProgress. Recibe parametros enviados desde doInBackground
+            // y que pueden ser usado para notificar/actualizar el estado del proceso en segundo plano
+            // Puede ser un valor o una cadena de valores
+            @Override
+            protected void onProgressUpdate(Integer... values) {
+                super.onProgressUpdate(values);
+
+            }
+
+
+            // Una vez que el hilo en segundo plano termina, se ejecuta lo indicado en el siguiente metodo
+            @Override
+            protected void onPostExecute(Boolean resultado) {
+                //super.onPostExecute(aVoid);
+
+
+                cargaEnLista();
+            }
+            // Si se corta la ejecución del hilo, se ejecutan las instrucciones indicadas en el siguiente método
+            @Override
+            protected void onCancelled() {
+                super.onCancelled();
+
+
+            }
+        }
+
+
+
     }
 
 

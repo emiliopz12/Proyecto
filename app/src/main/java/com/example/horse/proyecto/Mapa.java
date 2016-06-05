@@ -2,6 +2,7 @@ package com.example.horse.proyecto;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,13 +24,25 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mapa2);
+        setContentView(R.layout.activity_mapa);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        findViewById(R.id.cancelar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                volver();
+            }
+        });
     }
 
+
+    public void volver(){
+        this.finish();
+        super.onBackPressed();
+    }
 
     /**
      * Manipulates the map once available.
@@ -43,7 +56,8 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.setMyLocationEnabled(true);
         // Add a marker in Sydney and move the camera
         /*LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));

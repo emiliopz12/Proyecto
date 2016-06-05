@@ -44,7 +44,7 @@ public class IngresarLocalizacion extends FragmentActivity implements OnMapReady
 
         mapFragment.getMapAsync(this);
 
-        getLocation();
+        //getLocation();
 
         findViewById(R.id.cancelar).setOnClickListener(new View.OnClickListener() {
             @Override
