@@ -192,28 +192,50 @@ public class ModificarUsuario extends AppCompatActivity {
         if(nombColumn.equals("nacimiento")) {
             dato = arreglaFecha(dato);
         }
+        String URL = "http://reporteando-001-site1.etempurl.com/WebServiceApiRouter.svc/api/modificar?dato=" + dato + "&id=" + usuario.getCorreo() + "&tabla=ciudadanos&columna=" + nombColumn + "&idcol=email";
+        String URL2 = "http://reporteando-001-site1.etempurl.com/WebServiceApiRouter.svc/api/modificar?dato=" + dato + "&id=" + usuario.getCorreo() + "&tabla=usuarios&columna=" + nombColumn + "&idcol=email";
+        boolean band = false;
 
-        String URL = "http://reporteando-001-site1.etempurl.com/WebServiceApiRouter.svc/api/modificar?dato="+ dato +"&id="+ usuario.getCorreo() +"&tabla=ciudadanos&columna="+ nombColumn +"&idcol=email";
+        if(nombColumn.equals("email") || nombColumn.equals("clave")) {
+            band = true;
+        }
         //URL = URL.replace(" ", "");
         try{
-            String result = "";
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpResponse response = httpclient.execute(new HttpGet(URL));
-            BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(),"UTF-8"));
-            result=reader.readLine();
+            if(!nombColumn.equals("clave")) {
+                String result = "";
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpResponse response = httpclient.execute(new HttpGet(URL));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
+                result = reader.readLine();
 
+                JSONObject obj = new JSONObject(result);
+                String proveedores = obj.getString("success");
 
-
-            JSONObject obj = new JSONObject(result);
-            String proveedores = obj.getString("success");
-            //String proveedores = obj.getString("");
-
-            if(proveedores.equals("true")){
-                exito = true;
+                if(proveedores.equals("true")){
+                    exito = true;
+                }
+                else {
+                    m = "Error al modificar Usuario";
+                }
             }
-            else {
-                m = "Error al modificar Usuario";
+            if(band){
+                String result2 = "";
+                HttpClient httpclient2 = new DefaultHttpClient();
+                HttpResponse response2 = httpclient2.execute(new HttpGet(URL2));
+                BufferedReader reader2 = new BufferedReader(new InputStreamReader(response2.getEntity().getContent(),"UTF-8"));
+                result2=reader2.readLine();
+
+                JSONObject obj2 = new JSONObject(result2);
+                String proveedores2 = obj2.getString("success");
+
+                if(proveedores2.equals("true")){
+                    exito = true;
+                }
+                else {
+                    m = "Error al modificar Usuario";
+                }
             }
+
 
         }catch(JSONException e){
             e.printStackTrace();
