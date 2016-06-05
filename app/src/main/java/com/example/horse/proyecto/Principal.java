@@ -50,6 +50,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
@@ -74,6 +75,7 @@ public class Principal extends AppCompatActivity {
     public static FloatingActionButton fab;
     public static Usuario usuario;
 
+    public static String mCurrentPhotoPath;
     public static Bitmap fotoElegida;
     public static LocationManager locationManager;
 
@@ -238,20 +240,25 @@ public class Principal extends AppCompatActivity {
                     ((ImageView) findViewById(R.id.imageView)).setImageBitmap(FOTO);
 
                     b64 = getRealPathFromURI(imageUri);
-
-
                 }
                 catch (Exception e){
 
                 }
             }
             if(tomarFoto == true) {
-                Bundle extras = data.getExtras();
-                Uri imageUri = data.getData();
-                FOTO = (Bitmap) extras.get("data");
+                //Bundle extras = data.getExtras();
+
+
+
+                //Uri imageUri = data.getData();
+
+                //FOTO = (Bitmap) extras.get("data");
+
+                FOTO = BitmapFactory.decodeFile(mCurrentPhotoPath);
+
                 ((ImageView) findViewById(R.id.imageView)).setImageBitmap(FOTO);
-                //b64 = bitmapToBase64(FOTO,Bitmap.CompressFormat.JPEG, 100);
-                b64 = getRealPathFromURI(imageUri);
+
+                b64 = mCurrentPhotoPath;
             }
         }
     }
@@ -424,6 +431,24 @@ public class Principal extends AppCompatActivity {
         //-----------------------------------------------------------------------
 
 
+
+        private File createImageFile() throws IOException {
+            // Create an image file name
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            String imageFileName = "JPEG_" + timeStamp + "_";
+            File storageDir = Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES);
+            File image = File.createTempFile(
+                    imageFileName,  /* prefix */
+                    ".jpg",         /* suffix */
+                    storageDir      /* directory */
+            );
+
+            // Save a file: path for use with ACTION_VIEW intents
+            mCurrentPhotoPath = image.getAbsolutePath();
+            return image;
+        }
+
         public void cargaEnLista(){
 
 
@@ -514,6 +539,7 @@ public class Principal extends AppCompatActivity {
                     URL = "http://reporteando-001-site1.etempurl.com/WebServiceApiRouter.svc/api/insertarreporte?fecha=" + dt1.format(fechaHoy) + "&tipo=" + tipoE + "&ubicacion=" + provinciaE + "&direccion=" + provinciaE + "&descripcion=" + descrip.replace(" ", "%20") + "&puntaje=0&foto=" + b64 + "&ciudadano=" + usuario.getCorreo() + "&ciudad=0&latitud=" + latitudActual + "&logitud=" + longitudActual;
                 }
                 URL = URL.replace("\n", "");
+                URL = URL.replace(" ", "%20");
 
 
                 try {
@@ -698,7 +724,14 @@ public class Principal extends AppCompatActivity {
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
 
+
                                         Intent imageCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                        File photoFile = null;
+                                        try {
+                                            photoFile = createImageFile();
+                                        } catch (IOException ex) {
+                                        }
+                                        imageCaptureIntent.putExtra(MediaStore.EXTRA_OUTPUT,  Uri.fromFile(photoFile));
                                         startActivityForResult(imageCaptureIntent, REQUEST_IMAGE_CAPTURE);
                                         tomarFoto = true;
 
