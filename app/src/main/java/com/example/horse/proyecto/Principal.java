@@ -415,8 +415,8 @@ public class Principal extends AppCompatActivity {
 
 
                     reportes.add(new Reporte(tipo, descripcion, direccion, fecha, lat, longi, foto));
-                    if(i == 10)
-                        break;
+                  //  if(i == 10)
+                   //     break;
 
                 }
 

@@ -109,20 +109,20 @@
                 android:textStyle="bold"
                 android:layout_gravity="center_horizontal" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Registrarse"
-                android:id="@+id/btnRegistrarse"
-                android:minWidth="220dp"
-                android:layout_below="@+id/btnEntrar"
-                android:layout_alignLeft="@+id/btnEntrar"
-                android:layout_alignStart="@+id/btnEntrar"
-                style="@android:style/Widget.Button"
-                android:textStyle="bold"
-                android:layout_gravity="center_horizontal" />
         </LinearLayout>
     </ScrollView>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Registrarse"
+            android:id="@+id/btnRegistrarse"
+            android:minWidth="220dp"
+            style="@android:style/Widget.Button"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
 
