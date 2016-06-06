@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.os.StrictMode;
 import android.util.Log;
 
 import java.io.File;
@@ -18,6 +17,9 @@ public class FTP {
 
     String nombreBajar;
     String nombreSubir;
+
+    String cargarEmengencia;
+
     public static Bitmap FOTO;
     static final String FTP_HOST= "ftp.Smarterasp.net";
 
@@ -56,7 +58,7 @@ public class FTP {
         File archivo = new File(fileName);
 
         try {
-
+            client.setAutoNoopTimeout(5000);
             client.connect(FTP_HOST,21);
             client.login(FTP_USER, FTP_PASS);
             client.setType(FTPClient.TYPE_BINARY);
@@ -83,10 +85,10 @@ public class FTP {
         File archivo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + fileName);
 
         try {
-            StrictMode.ThreadPolicy policy =
+ /*           StrictMode.ThreadPolicy policy =
                     new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-
+            StrictMode.setThreadPolicy(policy);*/
+            client.setAutoNoopTimeout(5000);
             client.connect(FTP_HOST, 21);
             client.login(FTP_USER, FTP_PASS);
             client.setType(FTPClient.TYPE_BINARY);
@@ -100,6 +102,12 @@ public class FTP {
 
         } catch (Exception e) {
             e.printStackTrace();
+
+            archivo = new File( Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/" + fileName);
+
+            if (archivo != null)
+                FOTO = BitmapFactory.decodeFile(archivo.getAbsolutePath());
+
             try {
                 client.disconnect(true);
             } catch (Exception e2) {
