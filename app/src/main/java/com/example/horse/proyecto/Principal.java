@@ -553,7 +553,7 @@ public class Principal extends AppCompatActivity {
                     ftp.iniciarSubida();
 
                     //JSONObject obj = new JSONObject(result);
-                    // JSONArray proveedores = obj.getJSONArray("sucess");
+                    // JSONArray proveedores = obj.getJSONArray("success");
                     Toast.makeText(a.getApplicationContext(), "Reporte Agregado", Toast.LENGTH_LONG).show();
               /*  for (int i=0;i<proveedores.length();i++){
                     JSONObject json = proveedores.getJSONObject(i);
